@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #F7F3EA;
+  color: #252525;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-feature-settings: 'tnum' 1, 'cv11' 1;
+  background: radial-gradient(circle at 50% 0%, rgba(197, 138, 43, 0.05) 0%, transparent 60%),
+              radial-gradient(circle at 100% 100%, rgba(194, 103, 67, 0.04) 0%, transparent 50%),
+              #F7F3EA;
+  color: #252525;
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: rgba(197, 138, 43, 0.25);
+  color: #252525;
+}
+
+/* Warm Parchment Cards & Antique Gold Borders */
+.glass-panel {
+  background: #FFFCF5;
+  border: 1px solid #DDD8CC;
+  box-shadow: 0 2px 10px rgba(37, 37, 37, 0.03), 0 8px 24px -4px rgba(37, 37, 37, 0.05);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  border-color: #C58A2B;
+  box-shadow: 0 10px 25px -5px rgba(197, 138, 43, 0.15), 0 0 0 1px #C58A2B;
+  transform: translateY(-2px);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #252525 0%, #C58A2B 65%, #924C34 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-border {
+  border-image: linear-gradient(to right, #C58A2B, rgba(221, 216, 204, 0.4)) 1;
+}
+
+.gold-glow {
+  box-shadow: 0 0 25px rgba(197, 138, 43, 0.2);
+}
+
+/* Visible keyboard focus ring across the app */
+:focus-visible {
+  outline: 2px solid #C58A2B;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F3EA;
+}
+::-webkit-scrollbar-thumb {
+  background: #DDD8CC;
+  border-radius: 6px;
+  border: 2px solid #F7F3EA;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C58A2B;
+}
+
+/* Leaflet muted cream / earth tone historical cartography overrides */
+.leaflet-container {
+  background: #EFEADF !important;
+  font-family: inherit;
+}
+.leaflet-tile-pane {
+  filter: sepia(0.22) contrast(0.96) brightness(0.98);
+}
+.leaflet-control-attribution {
+  background: rgba(255, 252, 245, 0.92) !important;
+  color: #6B6B63 !important;
+  font-size: 10px !important;
+  border: 1px solid #DDD8CC;
+  border-radius: 4px;
+}
+.leaflet-control-attribution a {
+  color: #C58A2B !important;
+}
+.leaflet-control-zoom a {
+  background: #FFFCF5 !important;
+  color: #252525 !important;
+  border-color: #DDD8CC !important;
+}
+.leaflet-control-zoom a:hover {
+  background: #F7F3EA !important;
+  color: #C58A2B !important;
+}
+.leaflet-popup-content-wrapper {
+  background: #FFFCF5 !important;
+  color: #252525 !important;
+  border: 1px solid #DDD8CC !important;
+  border-radius: 12px !important;
+  box-shadow: 0 12px 30px -6px rgba(37, 37, 37, 0.12), 0 0 15px rgba(197, 138, 43, 0.1) !important;
+}
+.leaflet-popup-tip {
+  background: #FFFCF5 !important;
+  border: 1px solid #DDD8CC !important;
+}
+.district-label {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #252525;
+  font-size: 10px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px #FFFCF5, 0 0 6px #F7F3EA;
+  pointer-events: none;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
