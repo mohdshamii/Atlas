@@ -4,13 +4,9 @@ An interactive, civic/geographic data visualization platform for India — start
 with **Uttar Pradesh, district-level, 2015–2024** — built to expand to every state
 without rewriting the application.
 
-> **Original work.** This project is inspired only by the general concept of
-> interactive data-atlas websites. No code, layout, branding, assets, or text
-> were copied from BharatRajya.com or any other site.
-
 ---
 
-## ⚠️ Read this first: data status
+##  Read this first: data status
 
 **No verified government statistics are included in this build.** Every number
 you see is clearly labeled:
@@ -333,13 +329,13 @@ See the in-app **Data Sources** page (`/data-sources`) and
 Because this project was built in a sandboxed environment with no outbound
 network access, the following was verified **without** a live `npm install`:
 
-- ✅ Every `@/...` import path resolved correctly against the actual file tree
+-  Every `@/...` import path resolved correctly against the actual file tree
   (checked with a standalone `tsc` pass using ambient stub type declarations
   for external packages — this catches typos, missing files, and structural
   mistakes, though not full third-party type compatibility)
-- ✅ Generated GeoJSON validated as well-formed JSON with 75 non-degenerate
+-  Generated GeoJSON validated as well-formed JSON with 75 non-degenerate
   district polygons and no gaps
-- ✅ Manual review of every route, prop, and data-flow path described above
+-  Manual review of every route, prop, and data-flow path described above
 
 **Not yet verified** (requires the install/build you'll run locally):
 `npm install` resolution, `npm run build` (Vite + `tsc -b`), the production
