@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}3D Geospatial Studio | India Data Atlas{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; flex-direction: column; gap: 2rem;">
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/" class="breadcrumb-item">India</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-active">3D Geospatial Studio</span>
+  </div>
+
+  <!-- Header -->
+  <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; border-bottom: 1px solid var(--border-gold); padding-bottom: 1.5rem;">
+    <div>
+      <div class="badge-gold">
+        <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+        WEBGL 3D ACCELERATED GEOSPATIAL ENGINE
+      </div>
+      <h1 style="font-size: 2.5rem; font-weight: 800; margin-top: 0.5rem;" class="gold-gradient-text">
+        3D Geospatial Studio
+      </h1>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; max-width: 650px;">
+        Experience India's civic data through GPU-accelerated 3D globes, geographic relief maps, and extruded district elevation matrices.
+      </p>
+    </div>
+
+    <!-- Mode Selector Tabs -->
+    <div style="display: flex; background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 0.3rem; gap: 0.25rem;">
+      <a href="/3d-visualizer?mode=globe" class="btn" style="font-size: 0.8rem; padding: 0.5rem 1rem; {% if mode == 'globe' %}background: var(--gold-primary); color: #07090E; font-weight: 700;{% else %}background: transparent; color: var(--text-muted);{% endif %}">
+        <i data-lucide="globe" style="width: 14px; height: 14px;"></i> 3D Holographic Globe
+      </a>
+      <a href="/3d-visualizer?mode=relief" class="btn" style="font-size: 0.8rem; padding: 0.5rem 1rem; {% if mode == 'relief' %}background: var(--gold-primary); color: #07090E; font-weight: 700;{% else %}background: transparent; color: var(--text-muted);{% endif %}">
+        <i data-lucide="box" style="width: 14px; height: 14px;"></i> 3D State Relief Elevation
+      </a>
+    </div>
+  </div>
+
+  <!-- MODE 1: 3D HOLOGRAPHIC GLOBE -->
+  {% if mode == 'globe' %}
+  <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+    <div class="glass-panel" style="padding: 1.5rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">
+          Pan-India Holographic Globe with Sovereign State Beacons & Inter-State Economic Arcs
+        </span>
+        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--emerald);">
+          ● WebGL Running at 60 FPS
+        </span>
+      </div>
+
+      <div id="globe-studio-stage" style="height: 560px; width: 100%; border-radius: var(--radius-md); overflow: hidden; background: #07090E; cursor: grab;"></div>
+
+      <div style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; display: flex; justify-content: space-between;">
+        <span>Drag to rotate globe in 360° · Click any capital beacon (Lucknow, Mumbai, Bengaluru, Chennai) to explore state telemetry</span>
+        <span style="color: var(--gold-primary);">Auto-orbit active</span>
+      </div>
+    </div>
+
+    <!-- 3D Feature Explanations -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem;">
+      <div class="glass-panel" style="padding: 1.25rem;">
+        <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">01 · PAN-INDIA NODES</span>
+        <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.35rem;">State Telemetry Beacons</h4>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.5;">
+          Click any gold beacon on the globe to inspect its capital and instantly drill into sub-district data.
+        </p>
+      </div>
+
+      <div class="glass-panel" style="padding: 1.25rem;">
+        <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--emerald);">02 · ARC HIGHWAYS</span>
+        <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.35rem;">Inter-State Economic Arcs</h4>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.5;">
+          Curved golden parabolic trajectories connect Lucknow, Mumbai, Bengaluru, and Chennai.
+        </p>
+      </div>
+
+      <div class="glass-panel" style="padding: 1.25rem;">
+        <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: #818CF8;">03 · ORBITAL FREEDOM</span>
+        <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.35rem;">GPU Accelerated Rendering</h4>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.5;">
+          Custom Phong-shaded materials with atmospheric glows and ambient golden specular highlights.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODE 2: 3D STATE RELIEF ELEVATION MAP -->
+  {% else %}
+  <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+    <!-- State and Indicator Switcher -->
+    <div class="glass-panel" style="padding: 1.25rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">STATE:</span>
+          <select onchange="location = '/3d-visualizer?mode=relief&state=' + this.value + '&indicator={{ indicator.slug }}';" class="search-input" style="padding: 0.4rem 0.8rem; width: auto; font-weight: 600;">
+            {% for s in all_states %}
+            {% if s.status == 'available' %}
+            <option value="{{ s.id }}" {% if s.id == state.id %}selected{% endif %}>{{ s.name }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">METRIC PILLAR:</span>
+          <select onchange="location = '/3d-visualizer?mode=relief&state={{ state.id }}&indicator=' + this.value;" class="search-input" style="padding: 0.4rem 0.8rem; width: auto; font-weight: 600;">
+            {% for ind in all_indicators %}
+            <option value="{{ ind.slug }}" {% if ind.slug == indicator.slug %}selected{% endif %}>{{ ind.name }} - {{ ind.metrics[0].label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div style="font-size: 0.8rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">
+        Isometric Height Extrusion Active
+      </div>
+    </div>
+
+    <!-- 3D Elevation Canvas -->
+    <div class="glass-panel" style="padding: 1.5rem;">
+      <div id="elevation-studio-stage" style="height: 580px; width: 100%; border-radius: var(--radius-md); overflow: hidden; background: #07090E; cursor: grab;"></div>
+
+      <div style="margin-top: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md); font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+        <strong style="color: var(--text-main);">How to read this 3D map:</strong> Each cylinder represents a district.
+        Height = metric value. Colors follow an earthy historical palette:
+        <span style="color: #5B7B5A; font-weight: bold;">Sage Green</span> (top tier/good),
+        <span style="color: #C58A2B; font-weight: bold;">Saffron</span> (mid tier),
+        <span style="color: #C26743; font-weight: bold;">Terracotta</span> (priority focus).
+        Drag to rotate around the state · hover to view values · click any pillar to jump to its district profile.
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  {% if mode == 'globe' %}
+  initIndia3DGlobe('globe-studio-stage', { height: 560 });
+  {% else %}
+  initDistrict3DElevation('elevation-studio-stage', {
+    stateId: '{{ state.id }}',
+    indicatorSlug: '{{ indicator.slug }}',
+    metricKey: '{{ indicator.metrics[0].key }}',
+    year: {{ default_year }},
+    height: 580,
+  });
+  {% endif %}
+</script>
+{% endblock %}

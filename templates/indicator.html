@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block title %}{{ indicator.name }} in {{ district.name }} ({{ year }}) | India Data Atlas{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; flex-direction: column; gap: 2rem;">
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/" class="breadcrumb-item">India</a>
+    <span class="breadcrumb-separator">/</span>
+    <a href="/india/{{ district.stateId }}" class="breadcrumb-item">Uttar Pradesh</a>
+    <span class="breadcrumb-separator">/</span>
+    <a href="/india/{{ district.stateId }}/{{ district.id }}?year={{ year }}" class="breadcrumb-item">{{ district.name }}</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-item">{{ year }}</span>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-active">{{ indicator.name }}</span>
+  </div>
+
+  <!-- Indicator Header -->
+  <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; border-bottom: 1px solid var(--border-gold); padding-bottom: 1.5rem;">
+    <div>
+      <div class="badge-gold">
+        <i data-lucide="{{ indicator.icon }}" style="width: 13px; height: 13px; color: {{ indicator.accent }};"></i>
+        {{ indicator.name|upper }} · {{ district.name|upper }} ({{ year }})
+      </div>
+      <h1 style="font-size: 2.5rem; font-weight: 800; margin-top: 0.5rem;" class="gold-gradient-text">
+        {{ indicator.name }}
+      </h1>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; max-width: 600px;">
+        {{ indicator.description }}
+      </p>
+    </div>
+
+    <!-- Controls -->
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;">
+      <div class="year-pills">
+        {% for y in years %}
+        <a href="/india/{{ district.stateId }}/{{ district.id }}/{{ y }}/{{ indicator.slug }}?metric={{ active_metric.key }}" class="year-pill {% if y == year %}active{% endif %}">
+          {{ y }}
+        </a>
+        {% endfor %}
+      </div>
+
+      <a href="/compare?a={{ district.id }}&indicator={{ indicator.slug }}&year={{ year }}" class="btn btn-glass" style="font-size: 0.8rem; padding: 0.55rem 0.9rem;">
+        <i data-lucide="scale" style="width: 14px; height: 14px;"></i> Compare District
+      </a>
+    </div>
+  </div>
+
+  <!-- Metric Switcher Pills -->
+  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; background: var(--bg-surface); padding: 0.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+    <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); align-self: center; margin: 0 0.5rem;">METRIC FOCUS:</span>
+    {% for m in indicator.metrics %}
+    <a href="/india/{{ district.stateId }}/{{ district.id }}/{{ year }}/{{ indicator.slug }}?metric={{ m.key }}"
+       class="btn"
+       style="font-size: 0.75rem; padding: 0.4rem 0.8rem; {% if m.key == active_metric.key %}background: var(--gold-primary); color: #07090E; font-weight: 700;{% else %}background: transparent; color: var(--text-muted);{% endif %}">
+      {{ m.label }}
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- KPI Cards Grid -->
+  <div class="kpi-grid">
+    {% for k in kpis %}
+    <div class="glass-panel kpi-card" style="border-top: 3px solid {% if k.metric.key == active_metric.key %}var(--gold-primary){% else %}transparent{% endif %};">
+      <div>
+        <div class="kpi-header">
+          <span class="kpi-title">{{ k.metric.label }}</span>
+          <span class="badge-status {{ k.currentValue.status }}">{{ k.currentValue.status }}</span>
+        </div>
+
+        <div class="kpi-value">
+          {% if k.currentValue.value is not none %}
+            {{ k.currentValue.value }}<span class="kpi-unit">{{ k.metric.unit }}</span>
+          {% else %}
+            <span style="color: var(--text-dim); font-size: 1.25rem;">N/A</span>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="kpi-footer">
+        <div>
+          Prev: <span style="color: var(--text-main);">{{ k.previousValue.value if k.previousValue and k.previousValue.value is not none else 'N/A' }}</span>
+        </div>
+        <div class="trend-indicator">
+          {% if k.trend == 'up' %}
+            <span class="trend-up {{ 'positive' if k.metric.polarity == 'positive' else 'negative' }}">
+              <i data-lucide="trending-up" style="width: 14px; height: 14px;"></i> +{{ k.changeAbs }} ({{ k.changePct }}%)
+            </span>
+          {% elif k.trend == 'down' %}
+            <span class="trend-down {{ 'positive' if k.metric.polarity == 'negative' else 'negative' }}">
+              <i data-lucide="trending-down" style="width: 14px; height: 14px;"></i> {{ k.changeAbs }} ({{ k.changePct }}%)
+            </span>
+          {% elif k.trend == 'flat' %}
+            <span class="trend-flat">
+              <i data-lucide="minus" style="width: 14px; height: 14px;"></i> Flat (0.0%)
+            </span>
+          {% else %}
+            <span style="color: var(--text-dim);">No baseline</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Charts Stage: Trend Timeline & Regional Peer Comparison -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 1.5rem;">
+    <!-- Historical Trend Line Chart -->
+    <div class="glass-panel" style="padding: 1.5rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+        <div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">
+            10-Year Trajectory (2015–2024)
+          </h3>
+          <p style="font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">
+            {{ active_metric.label }} in {{ district.name }}
+          </p>
+        </div>
+        <span class="badge-gold">TIMELINE</span>
+      </div>
+
+      <div style="height: 300px; width: 100%;">
+        <canvas id="trendChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Regional Peer Comparison Bar Chart -->
+    <div class="glass-panel" style="padding: 1.5rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+        <div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">
+            Regional Division Benchmarking
+          </h3>
+          <p style="font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">
+            Comparison across {{ district.division or 'Division' }} peers ({{ year }})
+          </p>
+        </div>
+        <span class="badge-gold">PEER MATRIX</span>
+      </div>
+
+      <div style="height: 300px; width: 100%;">
+        <canvas id="comparisonChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Indicator Table -->
+  <div class="glass-panel" style="padding: 1.5rem;">
+    <div style="margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between;">
+      <h3 style="font-size: 1.2rem; font-weight: 700;">Complete Indicator Metric Catalog</h3>
+      <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-dim);">
+        {{ table_rows|length }} Observational Parameters
+      </span>
+    </div>
+
+    <div class="data-table-container">
+      <table class="atlas-table">
+        <thead>
+          <tr>
+            <th>Metric Label</th>
+            <th>Observed Value</th>
+            <th>Unit</th>
+            <th>Polarity</th>
+            <th>Data Status</th>
+            <th>Suggested Official Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in table_rows %}
+          <tr>
+            <td>
+              <div style="font-weight: 600; color: var(--text-main);">{{ r.metric.replace('_', ' ').title() }}</div>
+            </td>
+            <td>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--gold-light);">
+                {% if r.value is not none %}{{ r.value }}{% else %}Unavailable{% endif %}
+              </span>
+            </td>
+            <td><span class="font-mono" style="color: var(--text-muted);">{{ r.unit }}</span></td>
+            <td>
+              {% if r.polarity == 'positive' %}
+              <span style="color: var(--emerald); font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;">↑ Higher is better</span>
+              {% elif r.polarity == 'negative' %}
+              <span style="color: var(--crimson); font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;">↓ Lower is better</span>
+              {% else %}
+              <span style="color: var(--text-dim); font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;">• Neutral</span>
+              {% endif %}
+            </td>
+            <td><span class="badge-status {{ r.status }}">{{ r.status }}</span></td>
+            <td style="font-size: 0.8rem; color: var(--text-muted);">{{ indicator.suggestedOfficialSource }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Data Provenance Card -->
+  {% if ref_source %}
+  <div class="glass-panel" style="padding: 1.5rem; border-left: 3px solid var(--gold-primary);">
+    <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--gold-primary); margin-bottom: 0.5rem;">
+      <i data-lucide="database" style="width: 16px; height: 16px;"></i>
+      <h4 style="font-size: 0.95rem; font-weight: 700;">Data Provenance & Source Mapping</h4>
+    </div>
+    <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+      Authoritative Agency: <strong style="color: var(--text-main);">{{ ref_source.sourceName }}</strong>.
+      {% if ref_source.notes %}{{ ref_source.notes }}{% endif %}
+      {% if ref_source.sourceUrl %}
+      <a href="{{ ref_source.sourceUrl }}" target="_blank" style="color: var(--gold-primary); text-decoration: underline; margin-left: 0.5rem; display: inline-flex; align-items: center; gap: 0.2rem;">
+        Visit Source Portal <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+      </a>
+      {% endif %}
+    </p>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // 1. Trend Line Chart
+  const trendData = {{ trend|tojson }};
+  const trendLabels = trendData.map(d => d.year);
+  const trendValues = trendData.map(d => d.value);
+
+  const ctxTrend = document.getElementById('trendChart').getContext('2d');
+  new Chart(ctxTrend, {
+    type: 'line',
+    data: {
+      labels: trendLabels,
+      datasets: [{
+        label: '{{ active_metric.label }} ({{ active_metric.unit }})',
+        data: trendValues,
+        borderColor: '{{ indicator.accent }}',
+        backgroundColor: 'rgba(212, 175, 55, 0.08)',
+        fill: true,
+        tension: 0.35,
+        borderWidth: 2.5,
+        pointBackgroundColor: '{{ indicator.accent }}',
+        pointRadius: 4,
+        pointHoverRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(14, 19, 30, 0.95)',
+          titleColor: '#D4AF37',
+          bodyColor: '#F8FAFC',
+          borderColor: '#D4AF37',
+          borderWidth: 1,
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: { color: '#94A3B8', font: { family: 'JetBrains Mono' } }
+        },
+        y: {
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: { color: '#94A3B8', font: { family: 'JetBrains Mono' } }
+        }
+      }
+    }
+  });
+
+  // 2. Peer Comparison Bar Chart
+  const peerData = {{ neighbor_comparison|tojson }};
+  const peerLabels = peerData.map(d => d.name);
+  const peerValues = peerData.map(d => d.value);
+  const peerColors = peerData.map(d => d.isTarget ? '#D4AF37' : '#334155');
+
+  const ctxComp = document.getElementById('comparisonChart').getContext('2d');
+  new Chart(ctxComp, {
+    type: 'bar',
+    data: {
+      labels: peerLabels,
+      datasets: [{
+        label: '{{ active_metric.label }}',
+        data: peerValues,
+        backgroundColor: peerColors,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(14, 19, 30, 0.95)',
+          titleColor: '#D4AF37',
+          bodyColor: '#F8FAFC',
+          borderColor: '#D4AF37',
+          borderWidth: 1,
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: '#94A3B8', font: { family: 'JetBrains Mono', size: 10 } }
+        },
+        y: {
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: { color: '#94A3B8', font: { family: 'JetBrains Mono' } }
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

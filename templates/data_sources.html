@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Data Sources & Provenance | India Data Atlas{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; flex-direction: column; gap: 2rem; max-width: 900px;">
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/" class="breadcrumb-item">India</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-active">Data Sources & Provenance</span>
+  </div>
+
+  <!-- Header -->
+  <div style="border-bottom: 1px solid var(--border-gold); padding-bottom: 1.5rem;">
+    <div class="badge-gold">
+      <i data-lucide="database" style="width: 12px; height: 12px;"></i>
+      DATA GOVERNANCE & PROVENANCE
+    </div>
+    <h1 style="font-size: 2.5rem; font-weight: 800; margin-top: 0.5rem;" class="gold-gradient-text">
+      Data Sources & Provenance
+    </h1>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.6;">
+      India Data Atlas is built so every number carries an honest, audited provenance status. This page defines what those statuses signify and lists the official government ministry datasets mapped to each of the 11 locked indicators.
+    </p>
+  </div>
+
+  <!-- Warning / Notice Box -->
+  <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-md); padding: 1.25rem; display: flex; gap: 1rem; align-items: flex-start;">
+    <i data-lucide="info" style="width: 20px; height: 20px; color: var(--amber); shrink: 0; margin-top: 2px;"></i>
+    <div style="font-size: 0.85rem; color: #E2E8F0; line-height: 1.6;">
+      <strong style="color: #FBBF24;">This build uses deterministically calibrated demo data</strong>
+      <p style="margin-top: 0.35rem; color: #CBD5E1;">
+        No verified government survey microdata has been finalized into this release build. Every displayed figure is derived deterministically from seeded pseudo-random algorithms for continuous illustration and marked
+        <span class="badge-status demo">DEMO</span> or <span class="badge-status unavailable">NO DATA</span>.
+        The data service layer (`core/data_service.py`) is decoupled so live production databases (PostgreSQL/SQLAlchemy/API) can be connected without touching any template or UI logic.
+      </p>
+    </div>
+  </div>
+
+  <!-- Status Definitions -->
+  <div>
+    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem;">Status Definitions</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+      <div class="glass-panel" style="padding: 1.25rem;">
+        <span class="badge-status verified">VERIFIED</span>
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-top: 0.5rem;">Official Dataset</h4>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.5;">
+          Directly sourced from cited, verifiable government surveys (Census, UDISE+, HMIS, PLFS) with recorded observation timestamps.
+        </p>
+      </div>
+
+      <div class="glass-panel" style="padding: 1.25rem;">
+        <span class="badge-status demo">DEMO DATA</span>
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-top: 0.5rem;">Deterministically Generated</h4>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.5;">
+          Calculated using seeded Mulberry32 PRNG algorithms across district baselines. Stable across reloads and device viewports.
+        </p>
+      </div>
+
+      <div class="glass-panel" style="padding: 1.25rem;">
+        <span class="badge-status unavailable">UNAVAILABLE</span>
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-top: 0.5rem;">Missing Observation</h4>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.5;">
+          Neither verified nor simulated observation exists for that metric/year, exercising empty-state handling in UI controls.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reference Sources by Indicator -->
+  <div class="glass-panel" style="padding: 1.5rem;">
+    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Authoritative Reference Sources</h3>
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      The official government registries and ministries designed for production data pipelines:
+    </p>
+
+    <div class="data-table-container">
+      <table class="atlas-table">
+        <thead>
+          <tr>
+            <th>Indicator</th>
+            <th>Primary Authoritative Agency</th>
+            <th>Collection Notes</th>
+            <th>Portal Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ref in reference_sources %}
+          <tr>
+            <td>
+              <strong style="color: var(--gold-light);">{{ ref.indicatorSlug.replace('-', ' ').title() }}</strong>
+            </td>
+            <td style="color: var(--text-main); font-weight: 500;">{{ ref.sourceName }}</td>
+            <td style="font-size: 0.78rem; color: var(--text-muted);">{{ ref.notes }}</td>
+            <td>
+              {% if ref.sourceUrl %}
+              <a href="{{ ref.sourceUrl }}" target="_blank" style="color: var(--gold-primary); text-decoration: underline; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+                Visit Portal <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+              </a>
+              {% else %}
+              <span style="color: var(--text-dim); font-size: 0.75rem;">State Dashboards</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Notes on GeoJSON Boundaries -->
+  <div class="glass-panel" style="padding: 1.5rem; border-left: 3px solid var(--gold-primary);">
+    <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--gold-primary);">Notes on GeoJSON Boundaries</h4>
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem; line-height: 1.6;">
+      District polygons shown on the interactive maps are generated bounded Voronoi tessellations derived from hand-estimated district centroids, created specifically as a visualization aid. They do not constitute official administrative survey boundaries and must not be used for legal or jurisdictional purposes.
+    </p>
+  </div>
+
+</div>
+{% endblock %}

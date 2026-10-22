@@ -1,0 +1,381 @@
+{% extends "base.html" %}
+
+{% block title %}Civic Intelligence & Policy Studio | India Data Atlas{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; flex-direction: column; gap: 2rem;">
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/" class="breadcrumb-item">India</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-active">Civic Intelligence & Policy Studio</span>
+  </div>
+
+  <!-- Header & Navigation Tabs -->
+  <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; border-bottom: 1px solid var(--border-gold); padding-bottom: 1.5rem;">
+    <div>
+      <div class="badge-gold">
+        <i data-lucide="brain" style="width: 12px; height: 12px;"></i>
+        EXECUTIVE CIVIC INTELLIGENCE SUITE
+      </div>
+      <h1 style="font-size: 2.5rem; font-weight: 800; margin-top: 0.5rem;" class="gold-gradient-text">
+        Civic Intelligence & Policy Studio
+      </h1>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; max-width: 650px;">
+        Actionable civic intelligence designed to solve real-world development challenges: budget simulation, distress hotspots, and vulnerability indexing.
+      </p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div style="display: flex; flex-wrap: wrap; background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 0.3rem; gap: 0.25rem;">
+      <a href="/intelligence?tab=copilot&district={{ district.id }}" class="btn" style="font-size: 0.8rem; padding: 0.5rem 1rem; {% if active_tab == 'copilot' %}background: var(--gold-primary); color: #07090E; font-weight: 700;{% else %}background: transparent; color: var(--text-muted);{% endif %}">
+        <i data-lucide="brain" style="width: 14px; height: 14px;"></i> AI Policy Copilot
+      </a>
+      <a href="/intelligence?tab=vpi&district={{ district.id }}" class="btn" style="font-size: 0.8rem; padding: 0.5rem 1rem; {% if active_tab == 'vpi' %}background: var(--gold-primary); color: #07090E; font-weight: 700;{% else %}background: transparent; color: var(--text-muted);{% endif %}">
+        <i data-lucide="activity" style="width: 14px; height: 14px;"></i> Vulnerability (VPI)
+      </a>
+      <a href="/intelligence?tab=anomaly&district={{ district.id }}" class="btn" style="font-size: 0.8rem; padding: 0.5rem 1rem; {% if active_tab == 'anomaly' %}background: var(--gold-primary); color: #07090E; font-weight: 700;{% else %}background: transparent; color: var(--text-muted);{% endif %}">
+        <i data-lucide="radio" style="width: 14px; height: 14px;"></i> Distress Radar
+      </a>
+      <a href="/ml-studio?district={{ district.id }}" class="btn" style="font-size: 0.8rem; padding: 0.5rem 1rem; background: transparent; color: #818CF8;">
+        <i data-lucide="trending-up" style="width: 14px; height: 14px;"></i> 2030 ML Forecasting
+      </a>
+    </div>
+  </div>
+
+  <!-- TAB 1: AI POLICY COPILOT & BUDGET SIMULATOR -->
+  {% if active_tab == 'copilot' %}
+  <div style="display: flex; flex-direction: column; gap: 2rem;">
+    <!-- District Selection Bar -->
+    <div class="glass-panel" style="padding: 1.25rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">TARGET DISTRICT:</span>
+        <select onchange="location = '/intelligence?tab=copilot&district=' + this.value;" class="search-input" style="padding: 0.4rem 0.8rem; width: auto; font-weight: 600; cursor: pointer;">
+          {% for d in all_districts %}
+          <option value="{{ d.id }}" {% if d.id == district.id %}selected{% endif %}>{{ d.name }} ({{ d.stateId|title }})</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div style="font-size: 0.8rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">
+        Target Envelope: <strong id="val-total" style="color: var(--gold-light);">₹{{ policy_sim.budgets.total }} Cr</strong>
+      </div>
+    </div>
+
+    <!-- Simulator Layout: Sliders & Projections -->
+    <div id="simulation-stage"
+         data-base-imr="{{ policy_sim.baseline.imr }}"
+         data-base-lit="{{ policy_sim.baseline.literacy }}"
+         data-base-water="{{ policy_sim.baseline.water }}"
+         data-base-roads="{{ policy_sim.baseline.roads }}"
+         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem;">
+
+      <!-- Left Column: Capital Sliders -->
+      <div class="glass-panel" style="padding: 1.75rem; display: flex; flex-direction: column; gap: 1.5rem;">
+        <div>
+          <div class="badge-gold">INPUT CONTROLS</div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-top: 0.35rem;">Sectoral Capital Allocations</h3>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">
+            Adjust funding allocations (in Crores ₹) to evaluate modeled social impact.
+          </p>
+        </div>
+
+        <!-- Slider 1: Health -->
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+            <span style="font-weight: 600; color: #F43F5E;">Healthcare Infusion</span>
+            <span id="val-slider-health" class="font-mono" style="color: var(--text-main);">₹{{ policy_sim.budgets.health }} Cr</span>
+          </div>
+          <input type="range" id="slider-health" min="20" max="400" step="10" value="{{ policy_sim.budgets.health }}" style="width: 100%; accent-color: #F43F5E; cursor: pointer;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-top: 0.2rem;">
+            <span>₹20 Cr</span><span>Baseline: ₹150 Cr</span><span>₹400 Cr</span>
+          </div>
+        </div>
+
+        <!-- Slider 2: Education -->
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+            <span style="font-weight: 600; color: #10B981;">Education & Smart Schools</span>
+            <span id="val-slider-edu" class="font-mono" style="color: var(--text-main);">₹{{ policy_sim.budgets.education }} Cr</span>
+          </div>
+          <input type="range" id="slider-edu" min="20" max="300" step="10" value="{{ policy_sim.budgets.education }}" style="width: 100%; accent-color: #10B981; cursor: pointer;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-top: 0.2rem;">
+            <span>₹20 Cr</span><span>Baseline: ₹120 Cr</span><span>₹300 Cr</span>
+          </div>
+        </div>
+
+        <!-- Slider 3: Roads -->
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+            <span style="font-weight: 600; color: #D4AF37;">Road Infrastructure (PMGSY)</span>
+            <span id="val-slider-infra" class="font-mono" style="color: var(--text-main);">₹{{ policy_sim.budgets.infrastructure }} Cr</span>
+          </div>
+          <input type="range" id="slider-infra" min="50" max="500" step="25" value="{{ policy_sim.budgets.infrastructure }}" style="width: 100%; accent-color: #D4AF37; cursor: pointer;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-top: 0.2rem;">
+            <span>₹50 Cr</span><span>Baseline: ₹200 Cr</span><span>₹500 Cr</span>
+          </div>
+        </div>
+
+        <!-- Slider 4: Water -->
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+            <span style="font-weight: 600; color: #06B6D4;">Har Ghar Jal Drinking Water</span>
+            <span id="val-slider-water" class="font-mono" style="color: var(--text-main);">₹{{ policy_sim.budgets.water }} Cr</span>
+          </div>
+          <input type="range" id="slider-water" min="10" max="250" step="10" value="{{ policy_sim.budgets.water }}" style="width: 100%; accent-color: #06B6D4; cursor: pointer;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-top: 0.2rem;">
+            <span>₹10 Cr</span><span>Baseline: ₹80 Cr</span><span>₹250 Cr</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Projected Outcomes -->
+      <div class="glass-panel" style="padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="badge-gold" style="color: var(--emerald); border-color: rgba(16, 185, 129, 0.4);">
+            PREDICTIVE MODELING
+          </div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-top: 0.35rem;">5-Year Projected Targets</h3>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+            Estimated outcomes applying non-linear returns & cross-sector multipliers.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+              <div style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">INFANT MORTALITY (IMR)</div>
+              <div id="proj-imr" style="font-size: 1.75rem; font-weight: 700; font-family: 'Cinzel', serif; color: #34D399; margin-top: 0.25rem;">
+                {{ policy_sim.projected.imr }}
+              </div>
+              <div style="font-size: 0.7rem; color: var(--text-dim);">Baseline: {{ policy_sim.baseline.imr }} / 1k births</div>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+              <div style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">LITERACY RATE</div>
+              <div id="proj-lit" style="font-size: 1.75rem; font-weight: 700; font-family: 'Cinzel', serif; color: var(--gold-light); margin-top: 0.25rem;">
+                {{ policy_sim.projected.literacy }}%
+              </div>
+              <div style="font-size: 0.7rem; color: var(--text-dim);">Baseline: {{ policy_sim.baseline.literacy }}%</div>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+              <div style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">PIPED WATER ACCESS</div>
+              <div id="proj-water" style="font-size: 1.75rem; font-weight: 700; font-family: 'Cinzel', serif; color: #38BDF8; margin-top: 0.25rem;">
+                {{ policy_sim.projected.water }}%
+              </div>
+              <div style="font-size: 0.7rem; color: var(--text-dim);">Baseline: {{ policy_sim.baseline.water }}%</div>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+              <div style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">ROAD CONNECTIVITY</div>
+              <div id="proj-roads" style="font-size: 1.75rem; font-weight: 700; font-family: 'Cinzel', serif; color: #F59E0B; margin-top: 0.25rem;">
+                {{ policy_sim.projected.roads }}%
+              </div>
+              <div style="font-size: 0.7rem; color: var(--text-dim);">Baseline: {{ policy_sim.baseline.roads }}%</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Estimated Beneficiary Reach:</span>
+          <span style="font-size: 1.1rem; font-weight: 700; color: var(--gold-primary); font-family: 'JetBrains Mono', monospace;">
+            {{ '{:,}'.format(policy_sim.beneficiaries) }}+ citizens
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Executive Dossier Box -->
+    <div class="glass-panel" style="padding: 1.75rem;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem;">
+        <div>
+          <h3 style="font-size: 1.2rem; font-weight: 700;">Executive Policy Dossier</h3>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">
+            Automated synthesized memorandum for Chief Minister / District Collector administrative review.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+          <button onclick="copyToClipboard(document.getElementById('dossier-text').value, 'Policy Dossier Copied!')" class="btn btn-gold" style="font-size: 0.8rem; padding: 0.5rem 0.9rem;">
+            <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copy Dossier
+          </button>
+          <button onclick="window.print()" class="btn btn-glass" style="font-size: 0.8rem; padding: 0.5rem 0.9rem;">
+            <i data-lucide="printer" style="width: 14px; height: 14px;"></i> Print Memorandum
+          </button>
+        </div>
+      </div>
+
+      <textarea id="dossier-text" readonly class="search-input" style="width: 100%; height: 260px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.6; resize: vertical;">{{ policy_sim.dossierText }}</textarea>
+    </div>
+  </div>
+
+  <!-- TAB 2: VULNERABILITY INDEX (VPI) MATRIX -->
+  {% elif active_tab == 'vpi' %}
+  <div style="display: flex; flex-direction: column; gap: 2rem;">
+    <!-- Weights Customizer -->
+    <div class="glass-panel" style="padding: 1.75rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+        <div>
+          <div class="badge-gold">CUSTOMIZABLE MODEL WEIGHTS</div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-top: 0.35rem;">VPI Multi-Indicator Weighting Engine</h3>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">
+            Calibrate relative developmental weights to recalculate composite district vulnerability indices.
+          </p>
+        </div>
+        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">
+          Total: 100% Normalized
+        </span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem;">
+        <div>
+          <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.3rem;">Education Weight (25%)</div>
+          <input type="range" class="vpi-weight-slider" id="w-edu" min="5" max="50" value="25" style="width: 100%; accent-color: var(--gold-primary);">
+        </div>
+        <div>
+          <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.3rem;">Health Weight (25%)</div>
+          <input type="range" class="vpi-weight-slider" id="w-health" min="5" max="50" value="25" style="width: 100%; accent-color: var(--gold-primary);">
+        </div>
+        <div>
+          <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.3rem;">Water Access Weight (20%)</div>
+          <input type="range" class="vpi-weight-slider" id="w-water" min="5" max="50" value="20" style="width: 100%; accent-color: var(--gold-primary);">
+        </div>
+        <div>
+          <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.3rem;">Electricity Weight (15%)</div>
+          <input type="range" class="vpi-weight-slider" id="w-elec" min="5" max="50" value="15" style="width: 100%; accent-color: var(--gold-primary);">
+        </div>
+        <div>
+          <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.3rem;">Roads Weight (15%)</div>
+          <input type="range" class="vpi-weight-slider" id="w-roads" min="5" max="50" value="15" style="width: 100%; accent-color: var(--gold-primary);">
+        </div>
+      </div>
+    </div>
+
+    <!-- Quadrants Summary Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+      <div class="glass-panel" style="padding: 1.25rem; border-left: 3px solid #10B981;">
+        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: #10B981;">FRONTRUNNERS (>=75)</span>
+        <div style="font-size: 2rem; font-weight: 800; font-family: 'Cinzel', serif; margin-top: 0.25rem;">
+          {{ vpi_data.quadrantCounts.frontrunners }} <small style="font-size: 0.8rem; font-family: 'Inter', sans-serif; color: var(--text-dim);">Districts</small>
+        </div>
+      </div>
+      <div class="glass-panel" style="padding: 1.25rem; border-left: 3px solid #D4AF37;">
+        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: #D4AF37;">HIGH POTENTIAL (60-75)</span>
+        <div style="font-size: 2rem; font-weight: 800; font-family: 'Cinzel', serif; margin-top: 0.25rem;">
+          {{ vpi_data.quadrantCounts.potential }} <small style="font-size: 0.8rem; font-family: 'Inter', sans-serif; color: var(--text-dim);">Districts</small>
+        </div>
+      </div>
+      <div class="glass-panel" style="padding: 1.25rem; border-left: 3px solid #3B82F6;">
+        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: #3B82F6;">STAGNANT (45-60)</span>
+        <div style="font-size: 2rem; font-weight: 800; font-family: 'Cinzel', serif; margin-top: 0.25rem;">
+          {{ vpi_data.quadrantCounts.stagnant }} <small style="font-size: 0.8rem; font-family: 'Inter', sans-serif; color: var(--text-dim);">Districts</small>
+        </div>
+      </div>
+      <div class="glass-panel" style="padding: 1.25rem; border-left: 3px solid #EF4444;">
+        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: #EF4444;">DISTRESS HOTSPOTS (<45)</span>
+        <div style="font-size: 2rem; font-weight: 800; font-family: 'Cinzel', serif; margin-top: 0.25rem;">
+          {{ vpi_data.quadrantCounts.distress }} <small style="font-size: 0.8rem; font-family: 'Inter', sans-serif; color: var(--text-dim);">Districts</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ranked VPI Table -->
+    <div class="glass-panel" style="padding: 1.5rem;">
+      <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem;">Complete District Vulnerability Rankings</h3>
+      <div class="data-table-container">
+        <table class="atlas-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>District</th>
+              <th>Composite Score</th>
+              <th>Classification Quadrant</th>
+              <th>Literacy (%)</th>
+              <th>IMR</th>
+              <th>Piped Water (%)</th>
+              <th>Electrification (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in vpi_data.districts %}
+            <tr>
+              <td><span class="font-mono" style="font-weight: 700; color: var(--gold-primary);">#{{ item.rank }}</span></td>
+              <td><a href="/india/uttar-pradesh/{{ item.districtId }}" style="font-weight: 600; color: var(--text-main); text-decoration: underline;">{{ item.districtName }}</a></td>
+              <td>
+                <span class="font-mono" style="font-weight: 800; font-size: 1rem; color: var(--gold-light);">{{ item.composite }}</span>
+              </td>
+              <td>
+                {% if item.quadrant == 'frontrunners' %}
+                <span class="badge-status verified">FRONTRUNNER</span>
+                {% elif item.quadrant == 'potential' %}
+                <span class="badge-status demo">HIGH POTENTIAL</span>
+                {% elif item.quadrant == 'stagnant' %}
+                <span class="badge-status unavailable">STAGNANT</span>
+                {% else %}
+                <span class="badge-status unavailable" style="background: rgba(239, 68, 68, 0.15); color: #EF4444; border-color: rgba(239, 68, 68, 0.4);">DISTRESS HOTSPOT</span>
+                {% endif %}
+              </td>
+              <td><span class="font-mono">{{ item.metrics.literacy }}%</span></td>
+              <td><span class="font-mono">{{ item.metrics.imr }}</span></td>
+              <td><span class="font-mono">{{ item.metrics.water }}%</span></td>
+              <td><span class="font-mono">{{ item.metrics.electricity }}%</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: DISTRESS ALERTS & ANOMALY RADAR -->
+  {% elif active_tab == 'anomaly' %}
+  <div style="display: flex; flex-direction: column; gap: 2rem;">
+    <div class="glass-panel" style="padding: 1.5rem;">
+      <div class="badge-gold" style="color: var(--crimson); border-color: rgba(239, 68, 68, 0.3);">
+        <i data-lucide="radio" style="width: 12px; height: 12px;"></i> STATISTICAL SCANNER
+      </div>
+      <h3 style="font-size: 1.3rem; font-weight: 700; margin-top: 0.35rem;">Rapid YoY Distress & Outlier Alerts</h3>
+      <p style="font-size: 0.8rem; color: var(--text-muted);">
+        Automated outlier radar flagging acute socioeconomic shifts that demand immediate administrative scrutiny.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem;">
+      {% for a in anomalies %}
+      <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; border-left: 3px solid {% if a.type == 'distress' %}var(--crimson){% else %}var(--emerald){% endif %};">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+            <span class="badge-gold" style="font-size: 0.65rem; {% if a.type == 'distress' %}color: var(--crimson); border-color: rgba(239, 68, 68, 0.3);{% else %}color: var(--emerald); border-color: rgba(16, 185, 129, 0.3);{% endif %}">
+              {{ a.type|upper }} · {{ a.severity|upper }}
+            </span>
+            <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; {% if a.type == 'distress' %}color: var(--crimson);{% else %}color: var(--emerald);{% endif %}">
+              {{ '+' if a.deltaPct > 0 else '' }}{{ a.deltaPct }}%
+            </span>
+          </div>
+
+          <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main);">{{ a.districtName }}</h4>
+          <div style="font-size: 0.75rem; color: var(--gold-primary); font-family: 'JetBrains Mono', monospace; margin-top: 0.2rem;">
+            {{ a.indicatorName }} → {{ a.metricLabel }}
+          </div>
+
+          <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin-top: 0.75rem;">
+            {{ a.rationale }}
+          </p>
+        </div>
+
+        <div style="margin-top: 1.25rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-dim);">
+            {{ a.prevVal }} → {{ a.currentVal }} {{ a.unit }}
+          </span>
+          <a href="/india/{{ a.stateId }}/{{ a.districtId }}" style="font-size: 0.75rem; color: var(--gold-primary); font-weight: 600; display: flex; align-items: center; gap: 0.25rem;">
+            Inspect <i data-lucide="arrow-right" style="width: 12px; height: 12px;"></i>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

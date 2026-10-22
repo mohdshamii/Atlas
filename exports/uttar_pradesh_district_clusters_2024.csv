@@ -1,0 +1,76 @@
+districtId,districtName,division,stateId,raw,clusterId,clusterName,clusterColor,pca_x,pca_y
+auraiya,Auraiya,Kanpur,uttar-pradesh,"{'literacy': 62.7, 'imr': 19.3, 'water': 65.5, 'electricity': 95.6, 'roads': 100.2}",0,Tier 1: Developed Infrastructure & High Services,#10B981,1.723,1.347
+ayodhya,Ayodhya,Ayodhya,uttar-pradesh,"{'literacy': 82.6, 'imr': 20.5, 'water': 50.0, 'electricity': 88.1, 'roads': 83.6}",0,Tier 1: Developed Infrastructure & High Services,#10B981,0.515,0.282
+baghpat,Baghpat,Meerut,uttar-pradesh,"{'literacy': 89.2, 'imr': 19.9, 'water': 93.3, 'electricity': 85.1, 'roads': 103.3}",0,Tier 1: Developed Infrastructure & High Services,#10B981,-0.414,2.009
+ballia,Ballia,Azamgarh,uttar-pradesh,"{'literacy': 62.2, 'imr': 38.2, 'water': 68.8, 'electricity': 92.3, 'roads': 100.3}",0,Tier 1: Developed Infrastructure & High Services,#10B981,1.132,0.779
+bhadohi,Bhadohi,Varanasi,uttar-pradesh,"{'literacy': 64.7, 'imr': 22.1, 'water': 96.7, 'electricity': 103.8, 'roads': 103.3}",0,Tier 1: Developed Infrastructure & High Services,#10B981,0.99,1.735
+chitrakoot,Chitrakoot,Chitrakoot,uttar-pradesh,"{'literacy': 62.8, 'imr': 27.6, 'water': 89.2, 'electricity': 103.8, 'roads': 100.9}",0,Tier 1: Developed Infrastructure & High Services,#10B981,0.729,0.96
+etah,Etah,Aligarh,uttar-pradesh,"{'literacy': 71.7, 'imr': 17.4, 'water': 69.1, 'electricity': 95.7, 'roads': 94.1}",0,Tier 1: Developed Infrastructure & High Services,#10B981,1.211,1.37
+etawah,Etawah,Kanpur,uttar-pradesh,"{'literacy': 65.6, 'imr': 35.8, 'water': 66.0, 'electricity': 88.3, 'roads': 101.8}",0,Tier 1: Developed Infrastructure & High Services,#10B981,1.134,0.993
+gautam-buddha-nagar,Gautam Buddha Nagar,Meerut,uttar-pradesh,"{'literacy': 63.2, 'imr': 17.4, 'water': 50.0, 'electricity': 96.7, 'roads': 100.5}",0,Tier 1: Developed Infrastructure & High Services,#10B981,2.506,1.079
+gonda,Gonda,Devipatan,uttar-pradesh,"{'literacy': 72.6, 'imr': 18.9, 'water': 92.7, 'electricity': 81.4, 'roads': 83.3}",0,Tier 1: Developed Infrastructure & High Services,#10B981,-1.616,1.897
+jalaun,Jalaun,Jhansi,uttar-pradesh,"{'literacy': 64.3, 'imr': 24.4, 'water': 66.4, 'electricity': 89.2, 'roads': 78.9}",0,Tier 1: Developed Infrastructure & High Services,#10B981,-0.115,0.62
+kaushambi,Kaushambi,Allahabad,uttar-pradesh,"{'literacy': 67.9, 'imr': 17.4, 'water': 68.9, 'electricity': 103.8, 'roads': 90.0}",0,Tier 1: Developed Infrastructure & High Services,#10B981,1.467,0.843
+mainpuri,Mainpuri,Agra,uttar-pradesh,"{'literacy': 73.9, 'imr': 30.2, 'water': 56.3, 'electricity': 86.8, 'roads': 100.8}",0,Tier 1: Developed Infrastructure & High Services,#10B981,0.913,0.437
+mathura,Mathura,Agra,uttar-pradesh,"{'literacy': 62.7, 'imr': 17.4, 'water': 84.5, 'electricity': 88.9, 'roads': 91.2}",0,Tier 1: Developed Infrastructure & High Services,#10B981,0.587,2.059
+moradabad,Moradabad,Moradabad,uttar-pradesh,"{'literacy': 67.3, 'imr': 21.6, 'water': 84.0, 'electricity': 99.4, 'roads': 89.8}",0,Tier 1: Developed Infrastructure & High Services,#10B981,0.958,1.383
+saharanpur,Saharanpur,Saharanpur,uttar-pradesh,"{'literacy': 62.2, 'imr': 24.4, 'water': 69.8, 'electricity': 87.7, 'roads': 95.7}",0,Tier 1: Developed Infrastructure & High Services,#10B981,0.606,1.259
+shahjahanpur,Shahjahanpur,Bareilly,uttar-pradesh,"{'literacy': 70.1, 'imr': 22.7, 'water': 99.0, 'electricity': 83.3, 'roads': 93.2}",0,Tier 1: Developed Infrastructure & High Services,#10B981,-0.552,2.318
+siddharthnagar,Siddharthnagar,Basti,uttar-pradesh,"{'literacy': 74.5, 'imr': 17.4, 'water': 79.0, 'electricity': 93.2, 'roads': 85.3}",0,Tier 1: Developed Infrastructure & High Services,#10B981,-0.053,1.251
+sitapur,Sitapur,Lucknow,uttar-pradesh,"{'literacy': 69.7, 'imr': 17.4, 'water': 78.8, 'electricity': 82.4, 'roads': 78.0}",0,Tier 1: Developed Infrastructure & High Services,#10B981,-0.383,2.159
+sultanpur,Sultanpur,Ayodhya,uttar-pradesh,"{'literacy': 71.7, 'imr': 17.4, 'water': 89.9, 'electricity': 91.5, 'roads': 86.2}",0,Tier 1: Developed Infrastructure & High Services,#10B981,0.199,2.396
+banda,Banda,Chitrakoot,uttar-pradesh,"{'literacy': 75.8, 'imr': 33.9, 'water': 97.8, 'electricity': 83.8, 'roads': 87.1}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-2.13,0.296
+barabanki,Barabanki,Ayodhya,uttar-pradesh,"{'literacy': 83.5, 'imr': 45.0, 'water': 99.0, 'electricity': 83.4, 'roads': 92.2}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-2.269,-0.473
+bareilly,Bareilly,Bareilly,uttar-pradesh,"{'literacy': 83.8, 'imr': 25.4, 'water': 65.2, 'electricity': 86.8, 'roads': 70.0}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-1.858,-0.77
+basti,Basti,Basti,uttar-pradesh,"{'literacy': 82.8, 'imr': 34.1, 'water': 89.0, 'electricity': 91.5, 'roads': 85.9}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-1.269,-0.219
+deoria,Deoria,Gorakhpur,uttar-pradesh,"{'literacy': 85.2, 'imr': 29.9, 'water': 69.7, 'electricity': 82.8, 'roads': 95.2}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-0.5,0.188
+ghazipur,Ghazipur,Varanasi,uttar-pradesh,"{'literacy': 78.3, 'imr': 28.4, 'water': 99.0, 'electricity': 87.8, 'roads': 70.0}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-2.297,0.422
+hamirpur,Hamirpur,Chitrakoot,uttar-pradesh,"{'literacy': 62.8, 'imr': 24.4, 'water': 93.5, 'electricity': 75.0, 'roads': 89.3}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-1.946,1.644
+kasganj,Kasganj,Aligarh,uttar-pradesh,"{'literacy': 71.4, 'imr': 36.9, 'water': 99.0, 'electricity': 75.0, 'roads': 82.3}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-2.771,0.407
+kushinagar,Kushinagar,Gorakhpur,uttar-pradesh,"{'literacy': 90.8, 'imr': 18.6, 'water': 95.8, 'electricity': 81.2, 'roads': 96.7}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-2.427,0.77
+maharajganj,Maharajganj,Gorakhpur,uttar-pradesh,"{'literacy': 65.0, 'imr': 41.3, 'water': 77.6, 'electricity': 83.2, 'roads': 92.4}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-0.675,0.003
+meerut,Meerut,Meerut,uttar-pradesh,"{'literacy': 90.8, 'imr': 45.0, 'water': 74.8, 'electricity': 91.1, 'roads': 102.4}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-0.831,-1.355
+shravasti,Shravasti,Devipatan,uttar-pradesh,"{'literacy': 87.7, 'imr': 36.6, 'water': 50.0, 'electricity': 82.0, 'roads': 90.1}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-1.254,-1.45
+sonbhadra,Sonbhadra,Mirzapur,uttar-pradesh,"{'literacy': 70.9, 'imr': 41.4, 'water': 88.1, 'electricity': 94.1, 'roads': 80.7}",1,Tier 2: Fast-Growing Emerging Regional Hubs,#D4AF37,-1.194,-0.527
+agra,Agra,Agra,uttar-pradesh,"{'literacy': 75.1, 'imr': 54.0, 'water': 77.7, 'electricity': 82.9, 'roads': 94.8}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-1.386,-0.86
+aligarh,Aligarh,Aligarh,uttar-pradesh,"{'literacy': 89.3, 'imr': 35.7, 'water': 48.5, 'electricity': 95.4, 'roads': 103.3}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,0.267,-1.741
+amroha,Amroha,Moradabad,uttar-pradesh,"{'literacy': 89.4, 'imr': 35.6, 'water': 68.4, 'electricity': 100.8, 'roads': 89.6}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,0.3,-0.511
+bahraich,Bahraich,Devipatan,uttar-pradesh,"{'literacy': 84.6, 'imr': 48.0, 'water': 65.2, 'electricity': 82.0, 'roads': 79.6}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-1.806,-1.296
+bijnor,Bijnor,Moradabad,uttar-pradesh,"{'literacy': 83.9, 'imr': 17.4, 'water': 72.3, 'electricity': 92.4, 'roads': 85.2}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-1.236,0.135
+chandauli,Chandauli,Varanasi,uttar-pradesh,"{'literacy': 89.1, 'imr': 30.8, 'water': 59.9, 'electricity': 98.2, 'roads': 103.3}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,0.293,-0.681
+gorakhpur,Gorakhpur,Gorakhpur,uttar-pradesh,"{'literacy': 80.9, 'imr': 39.9, 'water': 80.4, 'electricity': 90.8, 'roads': 93.6}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-0.399,0.126
+hathras,Hathras,Aligarh,uttar-pradesh,"{'literacy': 89.8, 'imr': 45.3, 'water': 99.0, 'electricity': 89.7, 'roads': 93.5}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-0.723,0.65
+jaunpur,Jaunpur,Varanasi,uttar-pradesh,"{'literacy': 90.8, 'imr': 20.3, 'water': 83.4, 'electricity': 103.8, 'roads': 83.5}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-0.299,0.269
+kanpur-dehat,Kanpur Dehat,Kanpur,uttar-pradesh,"{'literacy': 83.9, 'imr': 37.3, 'water': 74.3, 'electricity': 90.4, 'roads': 83.6}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-1.14,-0.453
+kanpur-nagar,Kanpur Nagar,Kanpur,uttar-pradesh,"{'literacy': 82.5, 'imr': 40.8, 'water': 55.4, 'electricity': 97.0, 'roads': 80.5}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-0.417,-1.797
+lalitpur,Lalitpur,Jhansi,uttar-pradesh,"{'literacy': 89.6, 'imr': 17.4, 'water': 65.8, 'electricity': 103.5, 'roads': 86.5}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,0.618,0.313
+lucknow,Lucknow,Lucknow,uttar-pradesh,"{'literacy': 90.8, 'imr': 47.9, 'water': 96.3, 'electricity': 99.3, 'roads': 97.6}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,0.348,0.441
+mahoba,Mahoba,Chitrakoot,uttar-pradesh,"{'literacy': 88.4, 'imr': 32.2, 'water': 65.4, 'electricity': 101.8, 'roads': 83.5}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,0.391,-0.579
+mau,Mau,Azamgarh,uttar-pradesh,"{'literacy': 80.4, 'imr': 45.9, 'water': 65.4, 'electricity': 84.3, 'roads': 77.8}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-1.216,-0.896
+muzaffarnagar,Muzaffarnagar,Saharanpur,uttar-pradesh,"{'literacy': 70.3, 'imr': 43.8, 'water': 52.7, 'electricity': 83.1, 'roads': 101.5}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,0.964,0.34
+pilibhit,Pilibhit,Bareilly,uttar-pradesh,"{'literacy': 83.6, 'imr': 57.2, 'water': 84.3, 'electricity': 101.9, 'roads': 103.3}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,1.112,-0.439
+rampur,Rampur,Moradabad,uttar-pradesh,"{'literacy': 90.8, 'imr': 51.3, 'water': 55.2, 'electricity': 99.7, 'roads': 103.3}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,0.887,-1.858
+sambhal,Sambhal,Moradabad,uttar-pradesh,"{'literacy': 90.6, 'imr': 45.0, 'water': 50.0, 'electricity': 82.8, 'roads': 86.9}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-1.487,-1.885
+shamli,Shamli,Saharanpur,uttar-pradesh,"{'literacy': 90.8, 'imr': 31.5, 'water': 88.8, 'electricity': 83.8, 'roads': 97.7}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-1.573,0.654
+varanasi,Varanasi,Varanasi,uttar-pradesh,"{'literacy': 75.9, 'imr': 57.1, 'water': 99.0, 'electricity': 83.3, 'roads': 86.9}",2,Tier 3: Moderate Growth / Agrarian Baseline,#3B82F6,-1.91,-0.144
+ambedkar-nagar,Ambedkar Nagar,Ayodhya,uttar-pradesh,"{'literacy': 68.0, 'imr': 23.8, 'water': 70.3, 'electricity': 103.5, 'roads': 70.0}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,0.134,0.011
+amethi,Amethi,Ayodhya,uttar-pradesh,"{'literacy': 68.0, 'imr': 34.1, 'water': 60.0, 'electricity': 101.7, 'roads': 82.0}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,0.921,-0.609
+azamgarh,Azamgarh,Azamgarh,uttar-pradesh,"{'literacy': 83.1, 'imr': 39.5, 'water': 56.4, 'electricity': 98.8, 'roads': 79.0}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,0.934,-0.996
+balrampur,Balrampur,Devipatan,uttar-pradesh,"{'literacy': 69.5, 'imr': 32.2, 'water': 55.2, 'electricity': 91.2, 'roads': 99.4}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,0.438,-0.534
+budaun,Budaun,Bareilly,uttar-pradesh,"{'literacy': 65.0, 'imr': 45.0, 'water': 58.3, 'electricity': 103.8, 'roads': 77.9}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,0.799,-1.739
+bulandshahr,Bulandshahr,Meerut,uttar-pradesh,"{'literacy': 73.3, 'imr': 32.7, 'water': 46.4, 'electricity': 103.8, 'roads': 78.4}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,0.881,-1.448
+farrukhabad,Farrukhabad,Kanpur,uttar-pradesh,"{'literacy': 64.8, 'imr': 25.6, 'water': 54.0, 'electricity': 103.8, 'roads': 90.7}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,1.113,-0.939
+fatehpur,Fatehpur,Allahabad,uttar-pradesh,"{'literacy': 66.4, 'imr': 36.2, 'water': 95.5, 'electricity': 103.1, 'roads': 85.9}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,1.186,1.026
+firozabad,Firozabad,Agra,uttar-pradesh,"{'literacy': 70.4, 'imr': 52.7, 'water': 61.5, 'electricity': 103.8, 'roads': 83.3}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,1.191,-1.525
+ghaziabad,Ghaziabad,Meerut,uttar-pradesh,"{'literacy': 65.0, 'imr': 45.0, 'water': 62.9, 'electricity': 103.8, 'roads': 103.3}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,2.266,-0.455
+hapur,Hapur,Meerut,uttar-pradesh,"{'literacy': 69.3, 'imr': 17.4, 'water': 59.3, 'electricity': 98.1, 'roads': 80.5}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,0.868,0.387
+hardoi,Hardoi,Lucknow,uttar-pradesh,"{'literacy': 76.9, 'imr': 47.6, 'water': 70.6, 'electricity': 103.8, 'roads': 98.0}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,1.644,-0.475
+jhansi,Jhansi,Jhansi,uttar-pradesh,"{'literacy': 89.0, 'imr': 47.5, 'water': 63.8, 'electricity': 103.8, 'roads': 90.0}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,1.123,-1.422
+kannauj,Kannauj,Kanpur,uttar-pradesh,"{'literacy': 65.0, 'imr': 44.3, 'water': 83.9, 'electricity': 91.4, 'roads': 94.2}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,0.353,0.212
+lakhimpur-kheri,Lakhimpur Kheri,Lucknow,uttar-pradesh,"{'literacy': 62.6, 'imr': 51.6, 'water': 89.3, 'electricity': 94.8, 'roads': 83.3}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,-0.435,-0.292
+mirzapur,Mirzapur,Mirzapur,uttar-pradesh,"{'literacy': 65.7, 'imr': 41.0, 'water': 63.2, 'electricity': 89.4, 'roads': 77.8}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,0.451,-0.145
+pratapgarh,Pratapgarh,Allahabad,uttar-pradesh,"{'literacy': 71.3, 'imr': 53.8, 'water': 77.3, 'electricity': 102.4, 'roads': 89.9}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,0.005,-1.88
+prayagraj,Prayagraj,Allahabad,uttar-pradesh,"{'literacy': 65.6, 'imr': 51.4, 'water': 48.0, 'electricity': 103.0, 'roads': 87.5}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,2.186,-0.975
+raebareli,Raebareli,Lucknow,uttar-pradesh,"{'literacy': 62.4, 'imr': 39.5, 'water': 53.8, 'electricity': 99.8, 'roads': 91.5}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,1.093,-0.715
+sant-kabir-nagar,Sant Kabir Nagar,Basti,uttar-pradesh,"{'literacy': 84.1, 'imr': 45.0, 'water': 62.3, 'electricity': 98.1, 'roads': 82.6}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,-0.032,-1.835
+unnao,Unnao,Lucknow,uttar-pradesh,"{'literacy': 65.6, 'imr': 50.6, 'water': 60.0, 'electricity': 103.8, 'roads': 103.3}",3,Tier 4: High-Vulnerability Priority Development Zones,#EF4444,1.177,-1.548

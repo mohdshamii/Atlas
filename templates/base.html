@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}India Data Atlas | Sovereign District Data & Civic Intelligence{% endblock %}</title>
+  <meta name="description" content="Pan-India sovereign civic intelligence platform featuring 11 locked indicators, 3D geospatial WebGL visualizers, and predictive policy simulation.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/atlas.css') }}">
+
+  <!-- Vendor CDNs: Leaflet, Chart.js, Three.js, Lucide Icons, Canvas Confetti -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <!-- Ambient background light glows -->
+  <div class="ambient-glow" style="top: 5%; left: 15%; width: 500px; height: 500px; background: rgba(212, 175, 55, 0.04);"></div>
+  <div class="ambient-glow" style="top: 25%; right: 10%; width: 600px; height: 600px; background: rgba(99, 102, 241, 0.04);"></div>
+
+  <!-- Main Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="/" class="brand-logo">
+        <div class="brand-emblem">अ</div>
+        <div>
+          <span>INDIA DATA ATLAS</span>
+          <div style="font-size: 0.65rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); font-weight: 500; letter-spacing: 0.08em;">
+            SOVEREIGN INTELLIGENCE
+          </div>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}"><i data-lucide="compass" style="width:15px; height:15px;"></i> Home</a></li>
+          <li><a href="/india/uttar-pradesh" class="nav-link {% if '/india/' in request.path and not '/compare' in request.path %}active{% endif %}"><i data-lucide="map-pin" style="width:15px; height:15px;"></i> States</a></li>
+          <li><a href="/compare" class="nav-link {% if '/compare' in request.path %}active{% endif %}"><i data-lucide="scale" style="width:15px; height:15px;"></i> Benchmarking</a></li>
+          <li><a href="/intelligence" class="nav-link {% if '/intelligence' in request.path %}active{% endif %}"><i data-lucide="brain" style="width:15px; height:15px;"></i> AI Copilot</a></li>
+          <li><a href="/3d-visualizer" class="nav-link {% if '/3d-visualizer' in request.path %}active{% endif %}"><i data-lucide="box" style="width:15px; height:15px;"></i> 3D Studio</a></li>
+          <li><a href="/ml-studio" class="nav-link {% if '/ml-studio' in request.path %}active{% endif %}"><i data-lucide="activity" style="width:15px; height:15px;"></i> ML Models</a></li>
+          <li><a href="/data-sources" class="nav-link {% if '/data-sources' in request.path %}active{% endif %}"><i data-lucide="database" style="width:15px; height:15px;"></i> Provenance</a></li>
+        </ul>
+      </nav>
+
+      <!-- Global Search Autocomplete -->
+      <div style="width: 280px;">
+        <div class="search-container">
+          <div class="search-input-wrapper">
+            <i data-lucide="search" class="search-icon" style="width:16px; height:16px;"></i>
+            <input type="text" class="search-input" placeholder="Search districts, indicators..." autocomplete="off">
+          </div>
+          <div class="search-dropdown"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Content Block -->
+  <main style="flex: 1; padding: 2.5rem 0;">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Luxury Footer -->
+  <footer style="background: var(--bg-surface); border-top: 1px solid var(--border-gold); padding: 3.5rem 0 2rem; margin-top: auto;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; margin-bottom: 2.5rem;">
+        <div>
+          <div class="brand-logo" style="margin-bottom: 0.75rem;">
+            <div class="brand-emblem" style="width: 1.8rem; height: 1.8rem; font-size: 0.9rem;">अ</div>
+            <span>INDIA DATA ATLAS</span>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; max-width: 320px;">
+            A sovereign, civic and geographic data observatory built to synthesize complex multi-year socio-economic metrics across India into actionable intelligence.
+          </p>
+          <div style="margin-top: 1rem;" class="badge-gold">
+            <i data-lucide="shield-check" style="width: 13px; height: 13px;"></i> FINAL YEAR CAPSTONE SUITE
+          </div>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); text-transform: uppercase; margin-bottom: 1rem;">
+            Core Indicators
+          </h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8rem; color: var(--text-muted);">
+            <li><a href="/india/uttar-pradesh/lucknow/2024/demographics" style="hover: color: #FFF;">Demographics & Growth</a></li>
+            <li><a href="/india/uttar-pradesh/lucknow/2024/education">Education & Literacy</a></li>
+            <li><a href="/india/uttar-pradesh/lucknow/2024/healthcare">Healthcare & Child Health</a></li>
+            <li><a href="/india/uttar-pradesh/lucknow/2024/employment">Employment & Labor</a></li>
+            <li><a href="/india/uttar-pradesh/lucknow/2024/water">Safe Water & Sanitation</a></li>
+            <li><a href="/india/uttar-pradesh/lucknow/2024/electricity">Power & Electrification</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); text-transform: uppercase; margin-bottom: 1rem;">
+            Executive Engines
+          </h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8rem; color: var(--text-muted);">
+            <li><a href="/intelligence?tab=copilot">AI Policy Copilot</a></li>
+            <li><a href="/intelligence?tab=vpi">Vulnerability Index (VPI) Matrix</a></li>
+            <li><a href="/intelligence?tab=anomaly">Distress Radar & Outliers</a></li>
+            <li><a href="/3d-visualizer">3D Geospatial Holograms</a></li>
+            <li><a href="/ml-studio">2030 Time-Series ML Projections</a></li>
+            <li><a href="/ml-studio">K-Means District Clustering</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); text-transform: uppercase; margin-bottom: 1rem;">
+            Data Policy & APIs
+          </h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8rem; color: var(--text-muted);">
+            <li><a href="/data-sources">Provenance & Metadata</a></li>
+            <li><a href="/api/districts" target="_blank">Districts API Endpoint</a></li>
+            <li><a href="/api/indicators" target="_blank">Indicator Schema Endpoint</a></li>
+            <li><a href="/api/export/csv?state=uttar-pradesh">Export Uttar Pradesh CSV</a></li>
+            <li><a href="/api/ml/forecast?district=lucknow" target="_blank">Forecast JSON API</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">
+        <div>
+          © 2026 India Data Atlas. Engineered with Python, Flask, Three.js & Scikit-Learn.
+        </div>
+        <div>
+          Honest Data Status: <span class="badge-status demo" style="font-size: 0.65rem;">DEMO / ILLUSTRATION ONLY</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core Scripts -->
+  <script src="{{ url_for('static', filename='js/atlas.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/globe3d.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/elevation3d.js') }}"></script>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+  </script>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

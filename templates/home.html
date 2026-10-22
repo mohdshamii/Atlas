@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block title %}India Data Atlas | Sovereign District Data & Civic Intelligence{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; gap: 4rem;">
+
+  <!-- Hero Section -->
+  <section class="container">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; align-items: center;">
+      <div>
+        <div class="badge-gold">
+          <i data-lucide="sparkles" style="width: 13px; height: 13px;"></i>
+          PAN-INDIA CIVIC INTELLIGENCE & 3D GEOSPATIAL ENGINE
+        </div>
+
+        <h1 style="font-size: clamp(2.2rem, 4.5vw, 3.5rem); font-weight: 800; line-height: 1.15; margin-top: 1rem;">
+          Sovereign District Data & <span class="gold-gradient-text">Civic Intelligence</span>
+        </h1>
+
+        <p style="margin-top: 1rem; font-size: 1rem; color: var(--text-muted); line-height: 1.6; max-width: 520px;">
+          Synthesizing multi-year socioeconomic metrics across India into actionable policy intelligence, 3D WebGL cartography, and predictive ML forecasting.
+        </p>
+
+        <!-- Hero Search -->
+        <div style="margin-top: 1.5rem; max-width: 480px;">
+          <div class="search-container">
+            <div class="search-input-wrapper">
+              <i data-lucide="search" class="search-icon"></i>
+              <input type="text" class="search-input" style="padding: 0.9rem 1rem 0.9rem 2.8rem; font-size: 0.95rem;" placeholder="Search any district, indicator, or metric..." autocomplete="off">
+            </div>
+            <div class="search-dropdown"></div>
+          </div>
+        </div>
+
+        <!-- Quick Action CTAs -->
+        <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.85rem;">
+          <a href="/intelligence?tab=copilot" class="btn btn-gold">
+            <i data-lucide="brain" style="width: 16px; height: 16px;"></i>
+            Open AI Policy Copilot
+          </a>
+          <a href="/3d-visualizer" class="btn btn-glass">
+            <i data-lucide="box" style="width: 16px; height: 16px;"></i>
+            3D Hologram Studio
+          </a>
+          <a href="/ml-studio" class="btn btn-glass" style="border-color: rgba(99, 102, 241, 0.4); color: #818CF8;">
+            <i data-lucide="activity" style="width: 16px; height: 16px;"></i>
+            ML Predictions & Clusters
+          </a>
+        </div>
+
+        <!-- Metric Stat Counters -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
+          <div class="glass-panel" style="padding: 1rem;">
+            <div style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); text-transform: uppercase;">Districts Mapped</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--text-main); font-family: 'Cinzel', serif; margin-top: 0.25rem;">{{ districts_count }}</div>
+          </div>
+          <div class="glass-panel" style="padding: 1rem;">
+            <div style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); text-transform: uppercase;">Core Indicators</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--text-main); font-family: 'Cinzel', serif; margin-top: 0.25rem;">{{ indicators|length }}</div>
+          </div>
+          <div class="glass-panel" style="padding: 1rem;">
+            <div style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); text-transform: uppercase;">Timeline</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--text-main); font-family: 'Cinzel', serif; margin-top: 0.25rem;">{{ year_range.start }}–{{ year_range.end }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive 3D Globe Stage -->
+      <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); display: flex; align-items: center; gap: 0.5rem;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 10px var(--emerald);"></span>
+            Interactive 3D WebGL Globe
+          </span>
+          <a href="/3d-visualizer" style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.25rem;">
+            Full Screen <i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i>
+          </a>
+        </div>
+
+        <div id="hero-globe-container" style="height: 440px; width: 100%; border-radius: var(--radius-md); overflow: hidden; background: #07090E; cursor: grab;"></div>
+
+        <div style="font-size: 0.75rem; color: var(--text-dim); display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace;">
+          <span>Drag to orbit in 360° · Click beacons to explore states</span>
+          <span style="color: var(--gold-primary);">6 Capital Beacons Active</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Executive Civic Intelligence Spotlight -->
+  <section class="container">
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.75rem;">
+      <div class="badge-gold">
+        <i data-lucide="shield-check" style="width: 13px; height: 13px; color: var(--emerald);"></i>
+        REAL-WORLD PROBLEM SOLVING
+      </div>
+      <h2 style="font-size: 1.85rem; font-weight: 700;">Executive Civic Intelligence Engines</h2>
+      <p style="font-size: 0.875rem; color: var(--text-muted); max-width: 650px;">
+        Decision-support engines engineered for administrators, policy planners, and research institutions to tackle ground realities.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+      <!-- Copilot Card -->
+      <a href="/intelligence?tab=copilot" class="glass-panel" style="padding: 1.75rem; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(212, 175, 55, 0.15); display: flex; align-items: center; justify-content: center; color: var(--gold-primary);">
+              <i data-lucide="brain" style="width: 22px; height: 22px;"></i>
+            </div>
+            <span class="badge-gold">AI SIMULATOR</span>
+          </div>
+          <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">AI Policy Copilot</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+            Simulate 5-year multi-sector budget allocations (Health, Education, Water, Roads) and project outcomes with automated executive dossiers.
+          </p>
+        </div>
+        <div style="margin-top: 1.5rem; font-size: 0.8rem; font-weight: 600; color: var(--gold-primary); display: flex; align-items: center; gap: 0.35rem;">
+          Launch Simulator <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+        </div>
+      </a>
+
+      <!-- VPI Matrix Card -->
+      <a href="/intelligence?tab=vpi" class="glass-panel" style="padding: 1.75rem; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; color: var(--emerald);">
+              <i data-lucide="activity" style="width: 22px; height: 22px;"></i>
+            </div>
+            <span class="badge-gold">WEIGHT MATRIX</span>
+          </div>
+          <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">Vulnerability Index (VPI)</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+            Multi-dimensional district poverty and vulnerability classification into 4 quadrants: Frontrunners, Potential, Stagnant, and Distress.
+          </p>
+        </div>
+        <div style="margin-top: 1.5rem; font-size: 0.8rem; font-weight: 600; color: var(--emerald); display: flex; align-items: center; gap: 0.35rem;">
+          Inspect Matrix <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+        </div>
+      </a>
+
+      <!-- Distress Radar Card -->
+      <a href="/intelligence?tab=anomaly" class="glass-panel" style="padding: 1.75rem; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(239, 68, 68, 0.15); display: flex; align-items: center; justify-content: center; color: var(--crimson);">
+              <i data-lucide="radio" style="width: 22px; height: 22px;"></i>
+            </div>
+            <span class="badge-gold" style="color: var(--crimson); border-color: rgba(239, 68, 68, 0.3);">DISTRESS ALERTS</span>
+          </div>
+          <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">Distress Outlier Radar</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+            Statistical anomaly scanner flagging sharp YoY crime surges, child mortality reversals, and infrastructure breakthroughs.
+          </p>
+        </div>
+        <div style="margin-top: 1.5rem; font-size: 0.8rem; font-weight: 600; color: var(--crimson); display: flex; align-items: center; gap: 0.35rem;">
+          View Anomaly Feed <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+        </div>
+      </a>
+
+      <!-- ML Predictions Card -->
+      <a href="/ml-studio" class="glass-panel" style="padding: 1.75rem; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(99, 102, 241, 0.15); display: flex; align-items: center; justify-content: center; color: var(--indigo);">
+              <i data-lucide="trending-up" style="width: 22px; height: 22px;"></i>
+            </div>
+            <span class="badge-gold" style="color: #818CF8; border-color: rgba(99, 102, 241, 0.3);">2030 FORECAST</span>
+          </div>
+          <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">ML Time-Series Forecasting</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+            Scikit-learn Ridge regression & K-Means socio-economic clustering with 2D PCA spatial maps and confidence interval bounds.
+          </p>
+        </div>
+        <div style="margin-top: 1.5rem; font-size: 0.8rem; font-weight: 600; color: #818CF8; display: flex; align-items: center; gap: 0.35rem;">
+          Explore ML Models <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 11 Locked Civic Indicators Grid -->
+  <section class="container">
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 1.75rem;">
+      <div>
+        <div class="badge-gold">11 CORE PILLARS</div>
+        <h2 style="font-size: 1.85rem; font-weight: 700; margin-top: 0.35rem;">Locked Civic Indicators</h2>
+        <p style="font-size: 0.875rem; color: var(--text-muted);">
+          Each indicator is normalized with 4–6 verified metric definitions across 2015–2024.
+        </p>
+      </div>
+      <a href="/india/uttar-pradesh/lucknow/2024/demographics" style="font-size: 0.85rem; color: var(--gold-primary); font-weight: 600; display: flex; align-items: center; gap: 0.3rem;">
+        Explore Lucknow Baseline <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+      </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem;">
+      {% for ind in indicators %}
+      <a href="/india/uttar-pradesh/lucknow/2024/{{ ind.slug }}" class="glass-panel" style="padding: 1.25rem; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; border-left: 3px solid {{ ind.accent }};">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; color: {{ ind.accent }};">
+              <i data-lucide="{{ ind.icon }}" style="width: 18px; height: 18px;"></i>
+            </div>
+            <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--text-dim);">{{ ind.metrics|length }} METRICS</span>
+          </div>
+          <h3 style="font-size: 1.05rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.35rem;">{{ ind.name }}</h3>
+          <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.5;">{{ ind.shortDescription }}</p>
+        </div>
+        <div style="margin-top: 1rem; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); display: flex; align-items: center; gap: 0.25rem;">
+          View Metrics <i data-lucide="chevron-right" style="width: 12px; height: 12px;"></i>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Multi-State Explorer Section -->
+  <section class="container">
+    <div style="margin-bottom: 1.75rem;">
+      <div class="badge-gold">FEDERATED OBSERVATORIES</div>
+      <h2 style="font-size: 1.85rem; font-weight: 700; margin-top: 0.35rem;">States of India</h2>
+      <p style="font-size: 0.875rem; color: var(--text-muted);">
+        Drill down into district-level cartography and sub-district metrics for any federated state.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem;">
+      {% for st in all_states %}
+      <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+            <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-dim);">CAPITAL: {{ st.capital }}</span>
+            {% if st.status == 'available' %}
+            <span class="badge-status verified" style="font-size: 0.65rem;">ACTIVE</span>
+            {% else %}
+            <span class="badge-status unavailable" style="font-size: 0.65rem;">COMING SOON</span>
+            {% endif %}
+          </div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text-main);">{{ st.name }}</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">
+            {{ st.districts|length }} Districts Mapped
+          </p>
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          {% if st.status == 'available' %}
+          <a href="/india/{{ st.id }}" class="btn btn-gold" style="width: 100%; font-size: 0.8rem; padding: 0.5rem 0.8rem;">
+            Explore {{ st.name }} <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
+          </a>
+          {% else %}
+          <button class="btn btn-glass" disabled style="width: 100%; font-size: 0.8rem; padding: 0.5rem 0.8rem; opacity: 0.5; cursor: not-allowed;">
+            Ingesting Data
+          </button>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Initialize Hero 3D Globe
+  initIndia3DGlobe('hero-globe-container', { height: 440 });
+</script>
+{% endblock %}

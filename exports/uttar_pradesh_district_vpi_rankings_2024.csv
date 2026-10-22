@@ -1,0 +1,76 @@
+districtId,districtName,division,composite,quadrant,metrics,rank
+baghpat,Baghpat,Meerut,92.4,frontrunners,"{'literacy': 89.2, 'imr': 19.9, 'water': 93.3, 'electricity': 85.1, 'roads': 103.3}",1
+kushinagar,Kushinagar,Gorakhpur,92.2,frontrunners,"{'literacy': 90.8, 'imr': 18.6, 'water': 95.8, 'electricity': 81.2, 'roads': 96.7}",2
+jaunpur,Jaunpur,Varanasi,90.5,frontrunners,"{'literacy': 90.8, 'imr': 20.3, 'water': 83.4, 'electricity': 103.8, 'roads': 83.5}",3
+bhadohi,Bhadohi,Varanasi,88.9,frontrunners,"{'literacy': 64.7, 'imr': 22.1, 'water': 96.7, 'electricity': 103.8, 'roads': 103.3}",4
+lalitpur,Lalitpur,Jhansi,88.2,frontrunners,"{'literacy': 89.6, 'imr': 17.4, 'water': 65.8, 'electricity': 103.5, 'roads': 86.5}",5
+sultanpur,Sultanpur,Ayodhya,86.7,frontrunners,"{'literacy': 71.7, 'imr': 17.4, 'water': 89.9, 'electricity': 91.5, 'roads': 86.2}",6
+shamli,Shamli,Saharanpur,86.5,frontrunners,"{'literacy': 90.8, 'imr': 31.5, 'water': 88.8, 'electricity': 83.8, 'roads': 97.7}",7
+bijnor,Bijnor,Moradabad,86.2,frontrunners,"{'literacy': 83.9, 'imr': 17.4, 'water': 72.3, 'electricity': 92.4, 'roads': 85.2}",8
+shahjahanpur,Shahjahanpur,Bareilly,85.9,frontrunners,"{'literacy': 70.1, 'imr': 22.7, 'water': 99.0, 'electricity': 83.3, 'roads': 93.2}",9
+siddharthnagar,Siddharthnagar,Basti,85.3,frontrunners,"{'literacy': 74.5, 'imr': 17.4, 'water': 79.0, 'electricity': 93.2, 'roads': 85.3}",10
+gonda,Gonda,Devipatan,84.9,frontrunners,"{'literacy': 72.6, 'imr': 18.9, 'water': 92.7, 'electricity': 81.4, 'roads': 83.3}",11
+chitrakoot,Chitrakoot,Chitrakoot,84.5,frontrunners,"{'literacy': 62.8, 'imr': 27.6, 'water': 89.2, 'electricity': 103.8, 'roads': 100.9}",12
+moradabad,Moradabad,Moradabad,84.5,frontrunners,"{'literacy': 67.3, 'imr': 21.6, 'water': 84.0, 'electricity': 99.4, 'roads': 89.8}",13
+etah,Etah,Aligarh,84.3,frontrunners,"{'literacy': 71.7, 'imr': 17.4, 'water': 69.1, 'electricity': 95.7, 'roads': 94.1}",14
+lucknow,Lucknow,Lucknow,84.2,frontrunners,"{'literacy': 90.8, 'imr': 47.9, 'water': 96.3, 'electricity': 99.3, 'roads': 97.6}",15
+kaushambi,Kaushambi,Allahabad,83.9,frontrunners,"{'literacy': 67.9, 'imr': 17.4, 'water': 68.9, 'electricity': 103.8, 'roads': 90.0}",16
+mathura,Mathura,Agra,83.7,frontrunners,"{'literacy': 62.7, 'imr': 17.4, 'water': 84.5, 'electricity': 88.9, 'roads': 91.2}",17
+chandauli,Chandauli,Varanasi,83.6,frontrunners,"{'literacy': 89.1, 'imr': 30.8, 'water': 59.9, 'electricity': 98.2, 'roads': 103.3}",18
+hathras,Hathras,Aligarh,83.4,frontrunners,"{'literacy': 89.8, 'imr': 45.3, 'water': 99.0, 'electricity': 89.7, 'roads': 93.5}",19
+ghazipur,Ghazipur,Varanasi,83.0,frontrunners,"{'literacy': 78.3, 'imr': 28.4, 'water': 99.0, 'electricity': 87.8, 'roads': 70.0}",20
+basti,Basti,Basti,82.9,frontrunners,"{'literacy': 82.8, 'imr': 34.1, 'water': 89.0, 'electricity': 91.5, 'roads': 85.9}",21
+banda,Banda,Chitrakoot,82.1,frontrunners,"{'literacy': 75.8, 'imr': 33.9, 'water': 97.8, 'electricity': 83.8, 'roads': 87.1}",22
+amroha,Amroha,Moradabad,81.9,frontrunners,"{'literacy': 89.4, 'imr': 35.6, 'water': 68.4, 'electricity': 100.8, 'roads': 89.6}",23
+auraiya,Auraiya,Kanpur,81.5,frontrunners,"{'literacy': 62.7, 'imr': 19.3, 'water': 65.5, 'electricity': 95.6, 'roads': 100.2}",24
+mahoba,Mahoba,Chitrakoot,81.5,frontrunners,"{'literacy': 88.4, 'imr': 32.2, 'water': 65.4, 'electricity': 101.8, 'roads': 83.5}",25
+deoria,Deoria,Gorakhpur,81.4,frontrunners,"{'literacy': 85.2, 'imr': 29.9, 'water': 69.7, 'electricity': 82.8, 'roads': 95.2}",26
+sitapur,Sitapur,Lucknow,81.3,frontrunners,"{'literacy': 69.7, 'imr': 17.4, 'water': 78.8, 'electricity': 82.4, 'roads': 78.0}",27
+fatehpur,Fatehpur,Allahabad,81.1,frontrunners,"{'literacy': 66.4, 'imr': 36.2, 'water': 95.5, 'electricity': 103.1, 'roads': 85.9}",28
+barabanki,Barabanki,Ayodhya,80.8,frontrunners,"{'literacy': 83.5, 'imr': 45.0, 'water': 99.0, 'electricity': 83.4, 'roads': 92.2}",29
+hamirpur,Hamirpur,Chitrakoot,80.5,frontrunners,"{'literacy': 62.8, 'imr': 24.4, 'water': 93.5, 'electricity': 75.0, 'roads': 89.3}",30
+meerut,Meerut,Meerut,80.4,frontrunners,"{'literacy': 90.8, 'imr': 45.0, 'water': 74.8, 'electricity': 91.1, 'roads': 102.4}",31
+hapur,Hapur,Meerut,80.1,frontrunners,"{'literacy': 69.3, 'imr': 17.4, 'water': 59.3, 'electricity': 98.1, 'roads': 80.5}",32
+gorakhpur,Gorakhpur,Gorakhpur,79.6,frontrunners,"{'literacy': 80.9, 'imr': 39.9, 'water': 80.4, 'electricity': 90.8, 'roads': 93.6}",33
+gautam-buddha-nagar,Gautam Buddha Nagar,Meerut,79.5,frontrunners,"{'literacy': 63.2, 'imr': 17.4, 'water': 50.0, 'electricity': 96.7, 'roads': 100.5}",34
+ayodhya,Ayodhya,Ayodhya,79.3,frontrunners,"{'literacy': 82.6, 'imr': 20.5, 'water': 50.0, 'electricity': 88.1, 'roads': 83.6}",35
+aligarh,Aligarh,Aligarh,79.1,frontrunners,"{'literacy': 89.3, 'imr': 35.7, 'water': 48.5, 'electricity': 95.4, 'roads': 103.3}",36
+ambedkar-nagar,Ambedkar Nagar,Ayodhya,78.8,frontrunners,"{'literacy': 68.0, 'imr': 23.8, 'water': 70.3, 'electricity': 103.5, 'roads': 70.0}",37
+bareilly,Bareilly,Bareilly,78.6,frontrunners,"{'literacy': 83.8, 'imr': 25.4, 'water': 65.2, 'electricity': 86.8, 'roads': 70.0}",38
+kanpur-dehat,Kanpur Dehat,Kanpur,78.6,frontrunners,"{'literacy': 83.9, 'imr': 37.3, 'water': 74.3, 'electricity': 90.4, 'roads': 83.6}",39
+saharanpur,Saharanpur,Saharanpur,78.5,frontrunners,"{'literacy': 62.2, 'imr': 24.4, 'water': 69.8, 'electricity': 87.7, 'roads': 95.7}",40
+kasganj,Kasganj,Aligarh,78.0,frontrunners,"{'literacy': 71.4, 'imr': 36.9, 'water': 99.0, 'electricity': 75.0, 'roads': 82.3}",41
+pilibhit,Pilibhit,Bareilly,77.7,frontrunners,"{'literacy': 83.6, 'imr': 57.2, 'water': 84.3, 'electricity': 101.9, 'roads': 103.3}",42
+farrukhabad,Farrukhabad,Kanpur,77.2,frontrunners,"{'literacy': 64.8, 'imr': 25.6, 'water': 54.0, 'electricity': 103.8, 'roads': 90.7}",43
+mainpuri,Mainpuri,Agra,77.2,frontrunners,"{'literacy': 73.9, 'imr': 30.2, 'water': 56.3, 'electricity': 86.8, 'roads': 100.8}",44
+jhansi,Jhansi,Jhansi,76.9,frontrunners,"{'literacy': 89.0, 'imr': 47.5, 'water': 63.8, 'electricity': 103.8, 'roads': 90.0}",45
+sonbhadra,Sonbhadra,Mirzapur,76.7,frontrunners,"{'literacy': 70.9, 'imr': 41.4, 'water': 88.1, 'electricity': 94.1, 'roads': 80.7}",46
+hardoi,Hardoi,Lucknow,76.4,frontrunners,"{'literacy': 76.9, 'imr': 47.6, 'water': 70.6, 'electricity': 103.8, 'roads': 98.0}",47
+jalaun,Jalaun,Jhansi,76.0,frontrunners,"{'literacy': 64.3, 'imr': 24.4, 'water': 66.4, 'electricity': 89.2, 'roads': 78.9}",48
+balrampur,Balrampur,Devipatan,75.6,frontrunners,"{'literacy': 69.5, 'imr': 32.2, 'water': 55.2, 'electricity': 91.2, 'roads': 99.4}",49
+rampur,Rampur,Moradabad,75.6,frontrunners,"{'literacy': 90.8, 'imr': 51.3, 'water': 55.2, 'electricity': 99.7, 'roads': 103.3}",50
+etawah,Etawah,Kanpur,75.3,frontrunners,"{'literacy': 65.6, 'imr': 35.8, 'water': 66.0, 'electricity': 88.3, 'roads': 101.8}",51
+kannauj,Kannauj,Kanpur,74.9,potential,"{'literacy': 65.0, 'imr': 44.3, 'water': 83.9, 'electricity': 91.4, 'roads': 94.2}",52
+shravasti,Shravasti,Devipatan,74.6,potential,"{'literacy': 87.7, 'imr': 36.6, 'water': 50.0, 'electricity': 82.0, 'roads': 90.1}",53
+azamgarh,Azamgarh,Azamgarh,74.5,potential,"{'literacy': 83.1, 'imr': 39.5, 'water': 56.4, 'electricity': 98.8, 'roads': 79.0}",54
+ballia,Ballia,Azamgarh,74.5,potential,"{'literacy': 62.2, 'imr': 38.2, 'water': 68.8, 'electricity': 92.3, 'roads': 100.3}",55
+amethi,Amethi,Ayodhya,74.4,potential,"{'literacy': 68.0, 'imr': 34.1, 'water': 60.0, 'electricity': 101.7, 'roads': 82.0}",56
+sant-kabir-nagar,Sant Kabir Nagar,Basti,74.3,potential,"{'literacy': 84.1, 'imr': 45.0, 'water': 62.3, 'electricity': 98.1, 'roads': 82.6}",57
+kanpur-nagar,Kanpur Nagar,Kanpur,73.7,potential,"{'literacy': 82.5, 'imr': 40.8, 'water': 55.4, 'electricity': 97.0, 'roads': 80.5}",58
+ghaziabad,Ghaziabad,Meerut,73.6,potential,"{'literacy': 65.0, 'imr': 45.0, 'water': 62.9, 'electricity': 103.8, 'roads': 103.3}",59
+varanasi,Varanasi,Varanasi,73.5,potential,"{'literacy': 75.9, 'imr': 57.1, 'water': 99.0, 'electricity': 83.3, 'roads': 86.9}",60
+bulandshahr,Bulandshahr,Meerut,73.3,potential,"{'literacy': 73.3, 'imr': 32.7, 'water': 46.4, 'electricity': 103.8, 'roads': 78.4}",61
+maharajganj,Maharajganj,Gorakhpur,73.2,potential,"{'literacy': 65.0, 'imr': 41.3, 'water': 77.6, 'electricity': 83.2, 'roads': 92.4}",62
+pratapgarh,Pratapgarh,Allahabad,72.6,potential,"{'literacy': 71.3, 'imr': 53.8, 'water': 77.3, 'electricity': 102.4, 'roads': 89.9}",63
+sambhal,Sambhal,Moradabad,71.9,potential,"{'literacy': 90.6, 'imr': 45.0, 'water': 50.0, 'electricity': 82.8, 'roads': 86.9}",64
+lakhimpur-kheri,Lakhimpur Kheri,Lucknow,71.5,potential,"{'literacy': 62.6, 'imr': 51.6, 'water': 89.3, 'electricity': 94.8, 'roads': 83.3}",65
+agra,Agra,Agra,71.3,potential,"{'literacy': 75.1, 'imr': 54.0, 'water': 77.7, 'electricity': 82.9, 'roads': 94.8}",66
+bahraich,Bahraich,Devipatan,71.1,potential,"{'literacy': 84.6, 'imr': 48.0, 'water': 65.2, 'electricity': 82.0, 'roads': 79.6}",67
+unnao,Unnao,Lucknow,71.1,potential,"{'literacy': 65.6, 'imr': 50.6, 'water': 60.0, 'electricity': 103.8, 'roads': 103.3}",68
+mau,Mau,Azamgarh,70.9,potential,"{'literacy': 80.4, 'imr': 45.9, 'water': 65.4, 'electricity': 84.3, 'roads': 77.8}",69
+raebareli,Raebareli,Lucknow,70.9,potential,"{'literacy': 62.4, 'imr': 39.5, 'water': 53.8, 'electricity': 99.8, 'roads': 91.5}",70
+muzaffarnagar,Muzaffarnagar,Saharanpur,70.0,potential,"{'literacy': 70.3, 'imr': 43.8, 'water': 52.7, 'electricity': 83.1, 'roads': 101.5}",71
+mirzapur,Mirzapur,Mirzapur,69.4,potential,"{'literacy': 65.7, 'imr': 41.0, 'water': 63.2, 'electricity': 89.4, 'roads': 77.8}",72
+budaun,Budaun,Bareilly,68.9,potential,"{'literacy': 65.0, 'imr': 45.0, 'water': 58.3, 'electricity': 103.8, 'roads': 77.9}",73
+firozabad,Firozabad,Agra,68.8,potential,"{'literacy': 70.4, 'imr': 52.7, 'water': 61.5, 'electricity': 103.8, 'roads': 83.3}",74
+prayagraj,Prayagraj,Allahabad,65.9,potential,"{'literacy': 65.6, 'imr': 51.4, 'water': 48.0, 'electricity': 103.0, 'roads': 87.5}",75

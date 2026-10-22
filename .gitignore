@@ -1,7 +1,43 @@
-node_modules
-dist
-dist-ssr
-*.local
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Environments
 .env
+.venv
+*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
 .DS_Store
-*.log
+Thumbs.db
+

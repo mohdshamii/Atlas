@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}{{ state.name }} Observatory | India Data Atlas{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; flex-direction: column; gap: 2rem;">
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/" class="breadcrumb-item">India</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-active">{{ state.name }}</span>
+  </div>
+
+  <!-- State Header -->
+  <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; border-bottom: 1px solid var(--border-gold); padding-bottom: 1.5rem;">
+    <div>
+      <div class="badge-gold">
+        <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+        STATE OBSERVATORY · {{ state.districts|length }} DISTRICTS
+      </div>
+      <h1 style="font-size: 2.5rem; font-weight: 800; margin-top: 0.5rem;" class="gold-gradient-text">
+        {{ state.name }}
+      </h1>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+        Capital: <strong style="color: var(--text-main);">{{ state.capital }}</strong> · Sub-District Socio-Economic Telemetry
+      </p>
+    </div>
+
+    <!-- Controls: Year Selector & Indicator Dropdown -->
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;">
+      <div class="year-pills">
+        {% for y in years %}
+        <a href="/india/{{ state.id }}?year={{ y }}&indicator={{ indicator.slug }}" class="year-pill {% if y == year %}active{% endif %}">
+          {{ y }}
+        </a>
+        {% endfor %}
+      </div>
+
+      <div style="display: flex; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 0.25rem 0.75rem;">
+        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-dim); margin-right: 0.5rem;">METRIC:</span>
+        <select onchange="location = this.value;" style="background: transparent; border: none; color: var(--gold-light); font-size: 0.85rem; font-weight: 600; outline: none; cursor: pointer;">
+          {% for ind in all_indicators %}
+          <option value="/india/{{ state.id }}?year={{ year }}&indicator={{ ind.slug }}" {% if ind.slug == indicator.slug %}selected{% endif %} style="background: var(--bg-surface); color: var(--text-main);">
+            {{ ind.name }} - {{ ind.metrics[0].label }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Mode Switcher: 2D Cartography vs 3D Relief -->
+      <div style="display: flex; background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 0.2rem;">
+        <button id="btn-mode-2d" onclick="switchMapMode('2d')" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: var(--gold-primary); color: #07090E;">
+          <i data-lucide="layers" style="width: 13px; height: 13px;"></i> 2D Map
+        </button>
+        <button id="btn-mode-3d" onclick="switchMapMode('3d')" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: transparent; color: var(--text-muted);">
+          <i data-lucide="box" style="width: 13px; height: 13px;"></i> 3D Relief
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Map Stage -->
+  <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary); display: flex; align-items: center; gap: 0.5rem;">
+        <i data-lucide="map" style="width: 14px; height: 14px;"></i>
+        Choropleth Visualizer: <strong style="color: var(--text-main);">{{ metric.label }}</strong> ({{ year }})
+      </span>
+      <span style="font-size: 0.75rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">
+        Min: {{ min_val }} {{ metric.unit }} · Max: {{ max_val }} {{ metric.unit }}
+      </span>
+    </div>
+
+    <!-- 2D Leaflet Stage -->
+    <div id="map-stage-2d" style="height: 520px; width: 100%; border-radius: var(--radius-md); overflow: hidden; background: #07090E;"></div>
+
+    <!-- 3D Relief Stage (Hidden by default) -->
+    <div id="map-stage-3d" style="height: 520px; width: 100%; border-radius: var(--radius-md); overflow: hidden; background: #07090E; display: none; cursor: grab;"></div>
+
+    <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace;">
+      <span>Hover or click any district to inspect metrics and drill down into the full district dashboard</span>
+      <span class="badge-status demo">DEMO DATA CALIBRATED</span>
+    </div>
+  </div>
+
+  <!-- District Directory Grid with Live Search Filter -->
+  <div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem;">
+      <div>
+        <h3 style="font-size: 1.4rem; font-weight: 700;">Districts of {{ state.name }}</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">
+          Displaying {{ values|length }} administrative units sorted by current metric performance.
+        </p>
+      </div>
+
+      <div style="width: 280px;">
+        <input type="text" id="district-filter-input" class="search-input" placeholder="Filter district list..." style="padding: 0.6rem 1rem;">
+      </div>
+    </div>
+
+    <div id="district-cards-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem;">
+      {% for v in values %}
+      <a href="/india/{{ state.id }}/{{ v.districtId }}" class="glass-panel district-card" data-name="{{ v.districtName|lower }}" style="padding: 1.25rem; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--text-dim);">
+              {{ v.division }} Division
+            </span>
+            <span class="badge-status {{ v.status }}" style="font-size: 0.6rem;">{{ v.status }}</span>
+          </div>
+          <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">{{ v.districtName }}</h4>
+        </div>
+
+        <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: baseline; justify-content: space-between;">
+          <span style="font-size: 0.75rem; color: var(--text-muted);">{{ metric.label }}:</span>
+          <span style="font-size: 1.15rem; font-weight: 700; font-family: 'Cinzel', serif; color: var(--gold-light);">
+            {% if v.value is not none %}{{ v.value }} <small style="font-size: 0.7rem; font-family: 'Inter', sans-serif; color: var(--text-dim);">{{ metric.unit }}</small>{% else %}N/A{% endif %}
+          </span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // District Filter Search
+  const filterInput = document.getElementById('district-filter-input');
+  if (filterInput) {
+    filterInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.district-card');
+      cards.forEach((c) => {
+        const name = c.dataset.name;
+        c.style.display = name.includes(q) ? 'flex' : 'none';
+      });
+    });
+  }
+
+  // Map Mode Switcher
+  function switchMapMode(mode) {
+    const stage2d = document.getElementById('map-stage-2d');
+    const stage3d = document.getElementById('map-stage-3d');
+    const btn2d = document.getElementById('btn-mode-2d');
+    const btn3d = document.getElementById('btn-mode-3d');
+
+    if (mode === '3d') {
+      stage2d.style.display = 'none';
+      stage3d.style.display = 'block';
+      btn3d.style.background = 'var(--gold-primary)';
+      btn3d.style.color = '#07090E';
+      btn2d.style.background = 'transparent';
+      btn2d.style.color = 'var(--text-muted)';
+      initDistrict3DElevation('map-stage-3d', {
+        stateId: '{{ state.id }}',
+        indicatorSlug: '{{ indicator.slug }}',
+        metricKey: '{{ metric.key }}',
+        year: {{ year }},
+        height: 520,
+      });
+    } else {
+      stage3d.style.display = 'none';
+      stage2d.style.display = 'block';
+      btn2d.style.background = 'var(--gold-primary)';
+      btn2d.style.color = '#07090E';
+      btn3d.style.background = 'transparent';
+      btn3d.style.color = 'var(--text-muted)';
+    }
+  }
+
+  // Initialize 2D Leaflet Map
+  (function initLeafletMap() {
+    const map = L.map('map-stage-2d', {
+      zoomControl: true,
+      scrollWheelZoom: false,
+    }).setView([{{ state.centroid[0] }}, {{ state.centroid[1] }}], {{ state.zoom }});
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Color scale mapping
+    const minVal = {{ min_val }};
+    const maxVal = {{ max_val }};
+    const span = (maxVal - minVal) || 1.0;
+
+    function getColor(val) {
+      if (val === null || val === undefined) return '#334155';
+      const norm = (val - minVal) / span;
+      if (norm > 0.8) return '#D4AF37';
+      if (norm > 0.6) return '#10B981';
+      if (norm > 0.4) return '#3B82F6';
+      if (norm > 0.2) return '#F59E0B';
+      return '#EF4444';
+    }
+
+    const valueLookup = {
+      {% for v in values %}
+      "{{ v.districtId }}": { name: "{{ v.districtName }}", value: {{ v.value if v.value is not none else 'null' }} },
+      {% endfor %}
+    };
+
+    // Load GeoJSON if Uttar Pradesh
+    {% if state.id == 'uttar-pradesh' %}
+    fetch('/static/geojson/up_districts.geojson')
+      .then(res => res.json())
+      .then(geoData => {
+        L.geoJSON(geoData, {
+          style: function(feature) {
+            const dId = feature.properties.id || feature.properties.district_id;
+            const dataItem = valueLookup[dId];
+            const val = dataItem ? dataItem.value : null;
+            return {
+              fillColor: getColor(val),
+              weight: 1.5,
+              opacity: 0.9,
+              color: '#07090E',
+              dashArray: '2',
+              fillOpacity: 0.65
+            };
+          },
+          onEachFeature: function(feature, layer) {
+            const dId = feature.properties.id || feature.properties.district_id;
+            const dataItem = valueLookup[dId];
+            const name = dataItem ? dataItem.name : feature.properties.name;
+            const val = dataItem && dataItem.value !== null ? `${dataItem.value} {{ metric.unit }}` : 'No data';
+
+            layer.bindTooltip(`<strong>${name}</strong><br>{{ metric.label }}: ${val}`, { sticky: true });
+
+            layer.on({
+              mouseover: function(e) {
+                const l = e.target;
+                l.setStyle({ weight: 3, color: '#D4AF37', fillOpacity: 0.9 });
+                l.bringToFront();
+              },
+              mouseout: function(e) {
+                const l = e.target;
+                l.setStyle({ weight: 1.5, color: '#07090E', fillOpacity: 0.65 });
+              },
+              click: function() {
+                if (dId) {
+                  window.location.href = `/india/{{ state.id }}/${dId}`;
+                }
+              }
+            });
+          }
+        }).addTo(map);
+      })
+      .catch(err => {
+        console.warn('GeoJSON load fallback to circle centroids:', err);
+      });
+    {% else %}
+    // Fallback circle markers for states without full geojson polygon files
+    {% for v in values %}
+    {% if v.centroid %}
+    L.circleMarker([{{ v.centroid[0] }}, {{ v.centroid[1] }}], {
+      radius: 8,
+      fillColor: getColor({{ v.value if v.value is not none else 'null' }}),
+      color: '#D4AF37',
+      weight: 1,
+      fillOpacity: 0.8
+    }).addTo(map).bindPopup("<strong>{{ v.districtName }}</strong><br>{{ metric.label }}: {{ v.value }} {{ metric.unit }}<br><a href='/india/{{ state.id }}/{{ v.districtId }}' style='color:#D4AF37;'>Open District Page</a>");
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+  })();
+</script>
+{% endblock %}

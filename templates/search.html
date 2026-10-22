@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results: "{{ query }}" | India Data Atlas{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; flex-direction: column; gap: 2rem; max-width: 800px;">
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/" class="breadcrumb-item">India</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-active">Search Results</span>
+  </div>
+
+  <!-- Header -->
+  <div style="border-bottom: 1px solid var(--border-gold); padding-bottom: 1.5rem;">
+    <h1 style="font-size: 2.2rem; font-weight: 800;" class="gold-gradient-text">
+      Search Results
+    </h1>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+      Found {{ results|length }} match{{ 'es' if results|length != 1 else '' }} for query <strong style="color: var(--text-main);">"{{ query }}"</strong>
+    </p>
+  </div>
+
+  <!-- Search Input Reprompt -->
+  <div>
+    <form method="GET" action="/search" class="search-container">
+      <div class="search-input-wrapper">
+        <i data-lucide="search" class="search-icon"></i>
+        <input type="text" name="q" value="{{ query }}" class="search-input" placeholder="Search another district, state, or indicator...">
+      </div>
+    </form>
+  </div>
+
+  <!-- Results List -->
+  {% if results %}
+  <div class="glass-panel" style="overflow: hidden; padding: 0;">
+    <div style="display: flex; flex-direction: column;">
+      {% for r in results %}
+      <a href="{{ r.path }}" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-subtle); text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='rgba(212, 175, 55, 0.08)'" onmouseout="this.style.background='transparent'">
+        <div>
+          <div style="font-size: 1rem; font-weight: 700; color: var(--text-main);">{{ r.label }}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">{{ r.sublabel }}</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span class="badge-status demo" style="font-size: 0.65rem;">{{ r.type|upper }}</span>
+          <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: var(--gold-primary);"></i>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <!-- Empty State -->
+  <div class="glass-panel" style="padding: 3rem 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+    <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); display: flex; align-items: center; justify-content: center; color: var(--crimson);">
+      <i data-lucide="search-x" style="width: 26px; height: 26px;"></i>
+    </div>
+    <h3 style="font-size: 1.2rem; font-weight: 700;">No Matching Results Found</h3>
+    <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 450px; line-height: 1.5;">
+      We couldn't find any state, district, indicator, or metric matching "{{ query }}". Check your spelling or explore the state directory.
+    </p>
+    <a href="/india/uttar-pradesh" class="btn btn-gold" style="margin-top: 0.5rem;">
+      <i data-lucide="compass" style="width: 15px; height: 15px;"></i> Browse Uttar Pradesh
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

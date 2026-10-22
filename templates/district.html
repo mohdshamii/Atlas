@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}{{ district.name }} ({{ state_name }}) Profile | India Data Atlas{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; flex-direction: column; gap: 2rem;">
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/" class="breadcrumb-item">India</a>
+    <span class="breadcrumb-separator">/</span>
+    <a href="/india/{{ district.stateId }}" class="breadcrumb-item">{{ state_name }}</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-active">{{ district.name }}</span>
+  </div>
+
+  <!-- District Header -->
+  <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; border-bottom: 1px solid var(--border-gold); padding-bottom: 1.5rem;">
+    <div>
+      <div class="badge-gold">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--emerald);"></span>
+        DISTRICT OBSERVATORY · {{ state_name|upper }}
+      </div>
+      <h1 style="font-size: 2.5rem; font-weight: 800; margin-top: 0.5rem;" class="gold-gradient-text">
+        {{ district.name }}
+      </h1>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+        {{ state_name }}{% if district.division %} · {{ district.division }} Division{% endif %}
+        · Coordinate Node: <span class="font-mono" style="color: var(--text-main);">[{{ district.centroid[0] }}°N, {{ district.centroid[1] }}°E]</span>
+      </p>
+    </div>
+
+    <!-- Controls & CTAs -->
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.85rem;">
+      <div class="year-pills">
+        {% for y in years %}
+        <a href="/india/{{ district.stateId }}/{{ district.id }}?year={{ y }}" class="year-pill {% if y == year %}active{% endif %}">
+          {{ y }}
+        </a>
+        {% endfor %}
+      </div>
+
+      <button onclick="toggle3DView()" id="btn-toggle-3d" class="btn btn-glass" style="font-size: 0.8rem; padding: 0.55rem 0.9rem;">
+        <i data-lucide="box" style="width: 14px; height: 14px;"></i> 3D Elevation
+      </button>
+
+      <a href="/intelligence?district={{ district.id }}" class="btn btn-gold" style="font-size: 0.8rem; padding: 0.55rem 0.9rem;">
+        <i data-lucide="brain" style="width: 14px; height: 14px;"></i> AI Policy Copilot
+      </a>
+
+      <a href="/compare?a={{ district.id }}&year={{ year }}" class="btn btn-glass" style="font-size: 0.8rem; padding: 0.55rem 0.9rem;">
+        <i data-lucide="scale" style="width: 14px; height: 14px;"></i> Compare
+      </a>
+
+      <a href="/api/export/csv?district={{ district.id }}" class="btn btn-glass" style="font-size: 0.8rem; padding: 0.55rem 0.9rem; color: var(--emerald); border-color: rgba(16, 185, 129, 0.4);">
+        <i data-lucide="download" style="width: 14px; height: 14px;"></i> CSV
+      </a>
+    </div>
+  </div>
+
+  <!-- Optional 3D Relief Container (Toggled) -->
+  <div id="district-3d-wrapper" class="glass-panel" style="padding: 1.5rem; display: none;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+      <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">
+        3D State Elevation Matrix centered around {{ district.name }}
+      </span>
+      <button onclick="toggle3DView()" style="background: none; border: none; color: var(--text-muted); cursor: pointer;">
+        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+      </button>
+    </div>
+    <div id="district-3d-stage" style="height: 480px; width: 100%; border-radius: var(--radius-md); overflow: hidden; background: #07090E;"></div>
+  </div>
+
+  <!-- 11 Sectoral KPI Cards Grid -->
+  <div>
+    <div style="margin-bottom: 1.5rem; display: flex; align-items: baseline; justify-content: space-between;">
+      <div>
+        <h3 style="font-size: 1.4rem; font-weight: 700;">11 Sectoral Developmental Pillars ({{ year }})</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">
+          Headline observations for each civic sector. Click any card to drill down into historical trends, rankings, and deep metric breakdowns.
+        </p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      {% for item in headlines %}
+      {% set ind = item.indicator %}
+      {% set hl = item.headline %}
+      <a href="/india/{{ district.stateId }}/{{ district.id }}/{{ year }}/{{ ind.slug }}" class="glass-panel kpi-card" style="text-decoration: none; border-left: 3px solid {{ ind.accent }};">
+        <div>
+          <div class="kpi-header">
+            <span class="kpi-title" style="display: flex; align-items: center; gap: 0.4rem;">
+              <i data-lucide="{{ ind.icon }}" style="width: 14px; height: 14px; color: {{ ind.accent }};"></i>
+              {{ ind.name }}
+            </span>
+            <span class="badge-status {{ hl.status if hl else 'unavailable' }}">{{ hl.status if hl else 'unavailable' }}</span>
+          </div>
+
+          <div style="font-size: 0.75rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-bottom: 0.25rem;">
+            HEADLINE: {{ ind.metrics[0].label }}
+          </div>
+
+          <div class="kpi-value">
+            {% if hl and hl.value is not none %}
+              {{ hl.value }}<span class="kpi-unit">{{ hl.unit }}</span>
+            {% else %}
+              <span style="color: var(--text-dim);">No data</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="kpi-footer">
+          <span style="color: var(--text-dim);">{{ ind.metrics|length }} tracked metrics</span>
+          <span style="color: var(--gold-primary); font-weight: 600; display: flex; align-items: center; gap: 0.2rem;">
+            Inspect Indicator <i data-lucide="arrow-right" style="width: 12px; height: 12px;"></i>
+          </span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  let is3DLoaded = false;
+  function toggle3DView() {
+    const wrapper = document.getElementById('district-3d-wrapper');
+    const btn = document.getElementById('btn-toggle-3d');
+    if (wrapper.style.display === 'none') {
+      wrapper.style.display = 'block';
+      btn.style.background = 'var(--gold-primary)';
+      btn.style.color = '#07090E';
+      if (!is3DLoaded) {
+        initDistrict3DElevation('district-3d-stage', {
+          stateId: '{{ district.stateId }}',
+          indicatorSlug: 'education',
+          metricKey: 'literacy_rate',
+          year: {{ year }},
+          height: 480,
+        });
+        is3DLoaded = true;
+      }
+    } else {
+      wrapper.style.display = 'none';
+      btn.style.background = 'var(--bg-surface)';
+      btn.style.color = 'var(--text-gold)';
+    }
+  }
+</script>
+{% endblock %}

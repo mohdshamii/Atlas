@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}Comparative Benchmarking: {{ district_a.name }} vs {{ district_b.name }} | India Data Atlas{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; flex-direction: column; gap: 2rem;">
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/" class="breadcrumb-item">India</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-active">Comparative Benchmarking Studio</span>
+  </div>
+
+  <!-- Header -->
+  <div style="border-bottom: 1px solid var(--border-gold); padding-bottom: 1.5rem;">
+    <div class="badge-gold">
+      <i data-lucide="scale" style="width: 12px; height: 12px;"></i>
+      MULTILATERAL CIVIC BENCHMARK
+    </div>
+    <h1 style="font-size: 2.5rem; font-weight: 800; margin-top: 0.5rem;" class="gold-gradient-text">
+      District Comparative Analysis
+    </h1>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+      Benchmark any two districts across 11 key developmental domains and multi-dimensional radar capacities.
+    </p>
+  </div>
+
+  <!-- Controls Panel -->
+  <form method="GET" action="/compare" class="glass-panel" style="padding: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; align-items: flex-end;">
+    <div>
+      <label style="display: block; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); margin-bottom: 0.4rem;">
+        District A (Baseline)
+      </label>
+      <select name="a" class="search-input" style="padding: 0.6rem 0.8rem; cursor: pointer;">
+        {% for d in all_districts %}
+        <option value="{{ d.id }}" {% if d.id == district_a.id %}selected{% endif %}>{{ d.name }} ({{ d.stateId|title }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label style="display: block; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); margin-bottom: 0.4rem;">
+        District B (Peer / Target)
+      </label>
+      <select name="b" class="search-input" style="padding: 0.6rem 0.8rem; cursor: pointer;">
+        {% for d in all_districts %}
+        <option value="{{ d.id }}" {% if d.id == district_b.id %}selected{% endif %}>{{ d.name }} ({{ d.stateId|title }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label style="display: block; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); margin-bottom: 0.4rem;">
+        Sectoral Indicator
+      </label>
+      <select name="indicator" class="search-input" style="padding: 0.6rem 0.8rem; cursor: pointer;">
+        {% for ind in all_indicators %}
+        <option value="{{ ind.slug }}" {% if ind.slug == indicator.slug %}selected{% endif %}>{{ ind.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label style="display: block; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); margin-bottom: 0.4rem;">
+        Observation Year
+      </label>
+      <select name="year" class="search-input" style="padding: 0.6rem 0.8rem; cursor: pointer;">
+        {% for y in years %}
+        <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <button type="submit" class="btn btn-gold" style="width: 100%; padding: 0.65rem 1rem;">
+        <i data-lucide="refresh-cw" style="width: 14px; height: 14px;"></i> Update Comparison
+      </button>
+    </div>
+  </form>
+
+  <!-- 7-Pillar Multi-Dimensional Diagnostic Radar -->
+  <div class="glass-panel" style="padding: 2rem;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1rem;">
+      <div>
+        <div class="badge-gold">
+          <i data-lucide="compass" style="width: 12px; height: 12px;"></i> 7-PILLAR CAPABILITY RADAR
+        </div>
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-top: 0.25rem;">
+          Head-to-Head Normalized Diagnostic Radar ({{ year }})
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">
+          Scores normalized from 0 (lowest capacity) to 100 (highest performance) across core social domains.
+        </p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <span style="width: 12px; height: 12px; border-radius: 3px; background: #D4AF37;"></span>
+          <strong style="color: var(--gold-light);">{{ district_a.name }} (A)</strong>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <span style="width: 12px; height: 12px; border-radius: 3px; background: #6366F1;"></span>
+          <strong style="color: #A5B4FC;">{{ district_b.name }} (B)</strong>
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 380px; width: 100%; max-width: 700px; margin: 0 auto;">
+      <canvas id="radarChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Detailed Head-to-Head Comparison Table -->
+  <div class="glass-panel" style="padding: 1.5rem;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+      <div>
+        <h3 style="font-size: 1.2rem; font-weight: 700;">
+          {{ indicator.name }} Detailed Variance Table ({{ year }})
+        </h3>
+        <p style="font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">
+          Quantifying developmental gaps between {{ district_a.name }} and {{ district_b.name }}
+        </p>
+      </div>
+
+      <a href="/api/export/csv?district={{ district_a.id }}" class="btn btn-glass" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;">
+        <i data-lucide="download" style="width: 13px; height: 13px;"></i> Export Data
+      </a>
+    </div>
+
+    <div class="data-table-container">
+      <table class="atlas-table">
+        <thead>
+          <tr>
+            <th>Parameter / Metric</th>
+            <th>{{ district_a.name }} (A)</th>
+            <th>{{ district_b.name }} (B)</th>
+            <th>Absolute Delta (A - B)</th>
+            <th>Variance (%)</th>
+            <th>Advantage</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in comparison_rows %}
+          <tr>
+            <td>
+              <div style="font-weight: 600; color: var(--text-main);">{{ r.metric.label }}</div>
+              <div style="font-size: 0.7rem; color: var(--text-dim);">{{ r.metric.description }}</div>
+            </td>
+            <td>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--gold-light);">
+                {{ r.a.value if r.a.value is not none else 'N/A' }} <small style="font-size: 0.7rem; color: var(--text-muted);">{{ r.metric.unit }}</small>
+              </span>
+            </td>
+            <td>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #A5B4FC;">
+                {{ r.b.value if r.b.value is not none else 'N/A' }} <small style="font-size: 0.7rem; color: var(--text-muted);">{{ r.metric.unit }}</small>
+              </span>
+            </td>
+            <td>
+              <span class="font-mono" style="font-weight: 600; {% if r.diff and r.diff > 0 %}color: var(--emerald);{% elif r.diff and r.diff < 0 %}color: var(--crimson);{% else %}color: var(--text-dim);{% endif %}">
+                {% if r.diff is not none %}
+                  {{ '+' if r.diff > 0 else '' }}{{ r.diff }} {{ r.metric.unit }}
+                {% else %}
+                  -
+                {% endif %}
+              </span>
+            </td>
+            <td>
+              <span class="font-mono" style="font-weight: 600;">
+                {% if r.diffPct is not none %}
+                  {{ '+' if r.diffPct > 0 else '' }}{{ r.diffPct }}%
+                {% else %}
+                  -
+                {% endif %}
+              </span>
+            </td>
+            <td>
+              {% if r.diff is not none %}
+                {% if (r.diff > 0 and r.metric.polarity == 'positive') or (r.diff < 0 and r.metric.polarity == 'negative') %}
+                  <span class="badge-status verified" style="font-size: 0.65rem;">{{ district_a.name }} +</span>
+                {% elif (r.diff < 0 and r.metric.polarity == 'positive') or (r.diff > 0 and r.metric.polarity == 'negative') %}
+                  <span class="badge-status demo" style="font-size: 0.65rem; color: #A5B4FC; border-color: rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.1);">{{ district_b.name }} +</span>
+                {% else %}
+                  <span style="font-size: 0.7rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">Comparable</span>
+                {% endif %}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // 7-Pillar Benchmark Radar Chart
+  const radarDataRaw = {{ radar_data|tojson }};
+  const dimensions = radarDataRaw.map(d => d.dimension);
+  const scoresA = radarDataRaw.map(d => d.scoreA);
+  const scoresB = radarDataRaw.map(d => d.scoreB);
+
+  const ctxRadar = document.getElementById('radarChart').getContext('2d');
+  new Chart(ctxRadar, {
+    type: 'radar',
+    data: {
+      labels: dimensions,
+      datasets: [
+        {
+          label: '{{ district_a.name }}',
+          data: scoresA,
+          backgroundColor: 'rgba(212, 175, 55, 0.25)',
+          borderColor: '#D4AF37',
+          pointBackgroundColor: '#D4AF37',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: '#D4AF37',
+          borderWidth: 2,
+        },
+        {
+          label: '{{ district_b.name }}',
+          data: scoresB,
+          backgroundColor: 'rgba(99, 102, 241, 0.25)',
+          borderColor: '#6366F1',
+          pointBackgroundColor: '#6366F1',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: '#6366F1',
+          borderWidth: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      elements: {
+        line: { tension: 0.2 }
+      },
+      scales: {
+        r: {
+          angleLines: { color: 'rgba(255, 255, 255, 0.08)' },
+          grid: { color: 'rgba(255, 255, 255, 0.08)' },
+          pointLabels: {
+            color: '#E2E8F0',
+            font: { family: 'Inter', size: 11, weight: 'bold' }
+          },
+          ticks: {
+            display: false,
+            min: 0,
+            max: 100
+          }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(14, 19, 30, 0.95)',
+          titleColor: '#D4AF37',
+          bodyColor: '#F8FAFC',
+          borderColor: '#D4AF37',
+          borderWidth: 1,
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}Machine Learning & Predictive Modeling Studio | India Data Atlas{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; flex-direction: column; gap: 2.5rem;">
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/" class="breadcrumb-item">India</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-active">Machine Learning & Predictive Modeling Studio</span>
+  </div>
+
+  <!-- Header -->
+  <div style="border-bottom: 1px solid var(--border-gold); padding-bottom: 1.5rem;">
+    <div class="badge-gold" style="color: #818CF8; border-color: rgba(99, 102, 241, 0.4);">
+      <i data-lucide="cpu" style="width: 12px; height: 12px;"></i>
+      SCIKIT-LEARN MACHINE LEARNING ENGINE
+    </div>
+    <h1 style="font-size: 2.5rem; font-weight: 800; margin-top: 0.5rem;" class="gold-gradient-text">
+      Predictive Analytics & Clustering Studio
+    </h1>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; max-width: 700px;">
+      Unsupervised socio-economic clustering via K-Means & PCA, combined with Ridge regression time-series forecasting through 2030 with statistical confidence bounds.
+    </p>
+  </div>
+
+  <!-- SECTION 1: 2030 TIME-SERIES PREDICTIVE FORECASTING -->
+  <div class="glass-panel" style="padding: 2rem;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem;">
+      <div>
+        <div class="badge-gold">SECTION 01 · TIME-SERIES FORECASTING</div>
+        <h3 style="font-size: 1.35rem; font-weight: 700; margin-top: 0.25rem;">
+          {{ district.name }} Developmental Trajectory to 2030
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">
+          Solid line: Historical (2015–2024) · Dashed line: Regression forecast (2025–2030) with 95% confidence interval envelope.
+        </p>
+      </div>
+
+      <!-- District Selector -->
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">DISTRICT:</span>
+        <select onchange="location = '/ml-studio?district=' + this.value;" class="search-input" style="padding: 0.4rem 0.8rem; width: auto; font-weight: 600;">
+          {% for d in all_districts %}
+          <option value="{{ d.id }}" {% if d.id == district.id %}selected{% endif %}>{{ d.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <!-- Forecast Stat Badges -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+        <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">LITERACY 2030 TARGET</span>
+        <div style="font-size: 1.5rem; font-weight: 700; font-family: 'Cinzel', serif; color: var(--gold-light); margin-top: 0.2rem;">
+          {{ forecast_edu.projections[-1].predicted }}%
+        </div>
+        <span style="font-size: 0.7rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">
+          Bounds: [{{ forecast_edu.projections[-1].lower_bound }}% – {{ forecast_edu.projections[-1].upper_bound }}%]
+        </span>
+      </div>
+
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+        <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">LITERACY CAGR</span>
+        <div style="font-size: 1.5rem; font-weight: 700; font-family: 'Cinzel', serif; color: var(--emerald); margin-top: 0.2rem;">
+          +{{ forecast_edu.projectedCagr }}%/yr
+        </div>
+        <span style="font-size: 0.7rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">
+          Model Fit R²: {{ forecast_edu.r2_score }}
+        </span>
+      </div>
+
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+        <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--crimson);">IMR 2030 TARGET</span>
+        <div style="font-size: 1.5rem; font-weight: 700; font-family: 'Cinzel', serif; color: #34D399; margin-top: 0.2rem;">
+          {{ forecast_health.projections[-1].predicted }}
+        </div>
+        <span style="font-size: 0.7rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">
+          Bounds: [{{ forecast_health.projections[-1].lower_bound }} – {{ forecast_health.projections[-1].upper_bound }}]
+        </span>
+      </div>
+
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+        <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);">IMR ANNUAL DECLINE</span>
+        <div style="font-size: 1.5rem; font-weight: 700; font-family: 'Cinzel', serif; color: var(--emerald); margin-top: 0.2rem;">
+          {{ forecast_health.projectedCagr }}%/yr
+        </div>
+        <span style="font-size: 0.7rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">
+          Model Fit R²: {{ forecast_health.r2_score }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Chart Canvas -->
+    <div style="height: 380px; width: 100%;">
+      <canvas id="forecastChart"></canvas>
+    </div>
+  </div>
+
+  <!-- SECTION 2: UNSUPERVISED K-MEANS & PCA LATENT SCATTER PLOT -->
+  <div class="glass-panel" style="padding: 2rem;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem;">
+      <div>
+        <div class="badge-gold">SECTION 02 · UNSUPERVISED CLUSTERING</div>
+        <h3 style="font-size: 1.35rem; font-weight: 700; margin-top: 0.25rem;">
+          K-Means Socio-Economic Clusters & 2D PCA Latent Space
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">
+          Dimensionality reduction (PCA: {{ clusters.variance_explained[0] }}% + {{ clusters.variance_explained[1] }}% variance explained) clustering districts into 4 developmental tiers.
+        </p>
+      </div>
+
+      <!-- Cluster Legends -->
+      <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;">
+        {% for c in clusters.clusters_metadata %}
+        <div style="display: flex; align-items: center; gap: 0.35rem; background: rgba(255, 255, 255, 0.04); padding: 0.3rem 0.6rem; border-radius: 4px; border: 1px solid var(--border-subtle);">
+          <span style="width: 10px; height: 10px; border-radius: 2px; background: {{ c.color }};"></span>
+          <span style="color: var(--text-main);">{{ c.name.split(':')[0] }} ({{ c.count }})</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Scatter Plot Canvas -->
+    <div style="height: 420px; width: 100%;">
+      <canvas id="pcaClusterChart"></canvas>
+    </div>
+
+    <!-- Cluster Descriptions Table -->
+    <div style="margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      {% for c in clusters.clusters_metadata %}
+      <div style="background: rgba(255, 255, 255, 0.02); border-left: 3px solid {{ c.color }}; border-radius: var(--radius-sm); padding: 1rem;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: {{ c.color }};">{{ c.name }}</h4>
+        <div style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); margin-top: 0.25rem;">
+          {{ c.count }} Districts Assigned
+        </div>
+        <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 0.4rem; line-height: 1.5;">
+          Classified through multi-dimensional vector evaluation of literacy, maternal-child survival, piped water, electrification, and road density.
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // 1. Forecast Chart Setup
+  const forecastEdu = {{ forecast_edu|tojson }};
+  const histYears = forecastEdu.historical.map(d => d.year);
+  const histVals = forecastEdu.historical.map(d => d.value);
+
+  const projYears = forecastEdu.projections.map(d => d.year);
+  const projVals = forecastEdu.projections.map(d => d.predicted);
+  const lowerVals = forecastEdu.projections.map(d => d.lower_bound);
+  const upperVals = forecastEdu.projections.map(d => d.upper_bound);
+
+  const allYears = [...histYears, ...projYears];
+  const combinedHist = [...histVals, ...Array(projYears.length).fill(null)];
+
+  // Anchor projection at last historical point
+  const combinedProj = [...Array(histYears.length - 1).fill(null), histVals[histVals.length - 1], ...projVals];
+  const combinedUpper = [...Array(histYears.length - 1).fill(null), histVals[histVals.length - 1], ...upperVals];
+  const combinedLower = [...Array(histYears.length - 1).fill(null), histVals[histVals.length - 1], ...lowerVals];
+
+  const ctxForecast = document.getElementById('forecastChart').getContext('2d');
+  new Chart(ctxForecast, {
+    type: 'line',
+    data: {
+      labels: allYears,
+      datasets: [
+        {
+          label: 'Historical Literacy (2015–2024)',
+          data: combinedHist,
+          borderColor: '#D4AF37',
+          backgroundColor: 'rgba(212, 175, 55, 0.1)',
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: '#D4AF37',
+        },
+        {
+          label: 'ML Ridge Projection (2025–2030)',
+          data: combinedProj,
+          borderColor: '#10B981',
+          borderDash: [6, 4],
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: '#10B981',
+        },
+        {
+          label: '95% Upper Bound',
+          data: combinedUpper,
+          borderColor: 'transparent',
+          backgroundColor: 'rgba(16, 185, 129, 0.12)',
+          fill: '+1',
+          pointRadius: 0,
+        },
+        {
+          label: '95% Lower Bound',
+          data: combinedLower,
+          borderColor: 'transparent',
+          fill: false,
+          pointRadius: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: '#E2E8F0', font: { family: 'Inter', size: 11 } }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(14, 19, 30, 0.95)',
+          titleColor: '#D4AF37',
+          bodyColor: '#F8FAFC',
+          borderColor: '#D4AF37',
+          borderWidth: 1,
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: { color: '#94A3B8', font: { family: 'JetBrains Mono' } }
+        },
+        y: {
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: { color: '#94A3B8', font: { family: 'JetBrains Mono' } }
+        }
+      }
+    }
+  });
+
+  // 2. PCA Cluster Scatter Plot
+  const clusterData = {{ clusters|tojson }};
+  const scatterDatasets = clusterData.clusters_metadata.map((c) => {
+    const points = clusterData.districts
+      .filter(d => d.clusterId === c.id)
+      .map(d => ({
+        x: d.pca_x,
+        y: d.pca_y,
+        name: d.districtName,
+        lit: d.raw.literacy,
+        imr: d.raw.imr,
+        water: d.raw.water,
+      }));
+
+    return {
+      label: c.name.split(':')[0],
+      data: points,
+      backgroundColor: c.color,
+      pointRadius: 7,
+      pointHoverRadius: 10,
+    };
+  });
+
+  const ctxPca = document.getElementById('pcaClusterChart').getContext('2d');
+  new Chart(ctxPca, {
+    type: 'scatter',
+    data: {
+      datasets: scatterDatasets,
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: '#E2E8F0', font: { family: 'Inter', size: 11 } }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(14, 19, 30, 0.95)',
+          titleColor: '#D4AF37',
+          bodyColor: '#F8FAFC',
+          borderColor: '#D4AF37',
+          borderWidth: 1,
+          callbacks: {
+            label: function(context) {
+              const raw = context.raw;
+              return [
+                `District: ${raw.name}`,
+                `Literacy: ${raw.lit}% | IMR: ${raw.imr}`,
+                `Piped Water: ${raw.water}%`,
+                `PCA Coordinates: [${raw.x}, ${raw.y}]`
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Principal Component 1 (Primary Development Capacity)', color: '#94A3B8' },
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: { color: '#94A3B8', font: { family: 'JetBrains Mono' } }
+        },
+        y: {
+          title: { display: true, text: 'Principal Component 2 (Secondary Structural Variance)', color: '#94A3B8' },
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: { color: '#94A3B8', font: { family: 'JetBrains Mono' } }
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}
