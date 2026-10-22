@@ -195,5 +195,5 @@ $$\hat{y} \pm 1.96 \cdot s_e \sqrt{1 + \frac{1}{n} + \frac{(t - \bar{t})^2}{\sum
 
 ---
 
-## 📜 Academic Attribution & License
+##  Academic Attribution & License
 Developed as a Final Year Project on **Civic Analytics, Geospatial Intelligence, and Predictive Public Policy**. Released under the MIT License for educational and research applications.
