@@ -7,7 +7,7 @@ Built entirely in **Python (Flask, Pandas, NumPy, Scikit-Learn, Plotly, Seaborn)
 
 ---
 
-## 🌟 Key Platform Capabilities
+##  Key Platform Capabilities
 
 ### 1. Deterministic Multi-Dimensional Data Engine (`core/`)
 - **11 Locked Civic Indicators**: Demographics, Education, Healthcare, Employment, Crime, Road Infrastructure, Agriculture, Water & Sanitation, Electricity, Government Welfare Schemes, and Environment.
@@ -63,7 +63,7 @@ A publication-ready, self-contained notebook featuring:
 
 ---
 
-## 🏗️ Project Architecture
+##  Project Architecture
 
 ```
 atlas/
@@ -108,7 +108,7 @@ atlas/
 
 ---
 
-## 🚀 Quickstart Guide
+##  Quickstart Guide
 
 ### 1. Requirements
 - **Python 3.10+** (Tested on Python 3.10, 3.11, 3.12)
@@ -147,7 +147,7 @@ python test_app.py
 
 ---
 
-## 📊 Complete REST API Specification
+##  Complete REST API Specification
 
 All API endpoints return standard JSON responses and are fully CORS-enabled.
 
@@ -168,7 +168,7 @@ All API endpoints return standard JSON responses and are fully CORS-enabled.
 
 ---
 
-## 🧠 Machine Learning Methodology
+##  Machine Learning Methodology
 
 ### 1. K-Means Socio-Economic Clustering
 District profiles are standardized using `StandardScaler` across four foundational indices:
@@ -189,7 +189,7 @@ $$\hat{y} \pm 1.96 \cdot s_e \sqrt{1 + \frac{1}{n} + \frac{(t - \bar{t})^2}{\sum
 
 ---
 
-## 🛡️ Data Provenance & Ethics
+##  Data Provenance & Ethics
 - **Data Status Labeling**: Every metric card and API record clearly marks the provenance status (`verified`, `demo`, or `unavailable`).
 - **Research Integrity**: Synthetic baseline distributions reflect realistic Indian demographic and development intervals (informed by Census of India, NFHS-5, UDISE+, and NITI Aayog Aspirational Districts indicators) while ensuring full disclosure that current V1 values are generated for analytical modeling.
 
